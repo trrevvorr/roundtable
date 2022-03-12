@@ -50,7 +50,18 @@
 
       <v-checkbox v-model="highestWins" label="Highest Score Wins"></v-checkbox>
 
-      <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">
+      <PlayerSelect
+        :selectedPlayers="newGameSettings.players"
+        @change="
+          (players) =>
+            setNewGameSettings({
+              ...newGameSettings,
+              players: players,
+            })
+        "
+      />
+
+      <v-btn :disabled="!valid" color="success" class="mr-4" @click="startGame">
         Start Game
       </v-btn>
     </v-form>
@@ -59,9 +70,14 @@
 
 <script>
 import { mapMutations, mapGetters } from "vuex";
+import PlayerSelect from "@/components/PlayerSelect.vue";
+import router from "@/router";
 
 export default {
   name: "NewGameView",
+  components: {
+    PlayerSelect,
+  },
   data: () => ({
     valid: true,
     name: "",
@@ -87,15 +103,10 @@ export default {
     ...mapGetters(["newGameSettings"]),
   },
   methods: {
-    ...mapMutations(["setNewGameSettings"]),
-    validate() {
-      this.$refs.form.validate();
-    },
-    reset() {
-      this.$refs.form.reset();
-    },
-    resetValidation() {
-      this.$refs.form.resetValidation();
+    ...mapMutations(["setNewGameSettings", "setCurrentGameSettings"]),
+    startGame() {
+      this.setCurrentGameSettings(this.newGameSettings);
+      router.push("/current");
     },
   },
 };

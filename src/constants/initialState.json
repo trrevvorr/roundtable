@@ -1,5 +1,6 @@
 {
     "gameSettings": {
+        "players": [],
         "previous": [],
         "current": {
             "name": "Euchre",

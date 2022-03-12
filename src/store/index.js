@@ -7,39 +7,47 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     gameSettings: {
-      previous: getAllData().gameSettings.previous, // []
-      current: getAllData().gameSettings.current // {}
+      players: getAllData().gameSettings.players || [],
+      previous: getAllData().gameSettings.previous || [],
+      current: getAllData().gameSettings.current || {}
     },
     gameState: {
       current: {
-        settings: getAllData().gameState.current.settings, // {}
-        rounds: getAllData().gameState.current.rounds // {}
+        settings: getAllData().gameState.current.settings || {},
+        rounds: getAllData().gameState.current.rounds || []
       },
-      previous: getAllData().gameState.previous // []
+      previous: getAllData().gameState.previous || []
     }
   },
   getters: {
     newGameSettings: state => {
-      return {...state.gameSettings.current};
+      return { ...state.gameSettings.current };
+    },
+    newGamePlayers: state => {
+      return [...state.gameSettings.players];
     },
     currentGameSettings: state => {
-      return {...state.gameState.current.settings};
+      return { ...state.gameState.current.settings };
     },
     currentGameRounds: state => {
-      return {...state.gameState.current.rounds};
-    }
+      return [...state.gameState.current.rounds];
+    },
   },
   mutations: {
     setNewGameSettings(state, settings) {
-      state.gameSettings.current = { ...settings};
+      state.gameSettings.current = { ...settings };
+      setAllData(state);
+    },
+    setNewGamePlayers(state, players) {
+      state.gameSettings.players = [...players];
       setAllData(state);
     },
     setCurrentGameSettings(state, settings) {
       state.gameState.current.settings = { ...settings };
       setAllData(state);
     },
-    setCurrentGameScore(state, score) {
-      state.gameState.current.score = { ...score };
+    setCurrentGameRounds(state, rounds) {
+      state.gameState.current.rounds = { ...rounds };
       setAllData(state);
     }
   },
