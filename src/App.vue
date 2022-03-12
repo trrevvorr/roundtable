@@ -1,41 +1,56 @@
 <template>
-  <div id="app">
-    <div class="header">
-      <nav>
-        <router-link to="/">Home</router-link> |
-        <router-link to="/new">New Game</router-link>
-      </nav>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-app-bar
+      app
+      color="primary"
+    >
+      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+      <v-toolbar-title>Roundtable</v-toolbar-title>
+    </v-app-bar>
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      temporary
+    >
+      <v-list
+        dense
+        nav
+      >
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          link
+          :to="item.path"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-main>
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+<script>
+export default {
+  name: 'App',
 
-  height: 100vh;
-  width: 100vw;
-  margin: 2rem;
-}
-
-.header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 2rem;
-  margin: auto;
-  width: 100%;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+  data: () => ({
+      drawer: false,
+      group: null,
+      items: [
+          { title: 'Home', icon: 'mdi-home', path: '/' },
+          { title: 'New Game', icon: 'mdi-plus', path: '/new' }
+        ],
+        right: null,
+    })
+};
+</script>

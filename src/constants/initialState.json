@@ -1,18 +1,19 @@
 {
     "gameSettings": {
-      "previous": [],
-      "current": {
-          "name": "Euchre",
-          "maxPoints": 10,
-          "highestWins": true,
-          "players": []
-      }
+        "previous": [],
+        "current": {
+            "name": "Euchre",
+            "maxPoints": 10,
+            "stepSize": 1,
+            "highestWins": true,
+            "players": []
+        }
     },
     "gameState": {
-      "current": {
-        "settings":  {},
-        "rounds": []
+        "current": {
+            "settings": {},
+            "rounds": []
         },
-      "previous": []
+        "previous": []
     }
 }
