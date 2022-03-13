@@ -63,6 +63,7 @@ export default {
     roundDirty: Boolean,
     highestScore: Number,
     lowestScore: Number,
+    highestWins: Boolean,
   },
   data: () => ({}),
   computed: {
@@ -70,10 +71,14 @@ export default {
       const range = this.highestScore - this.lowestScore;
       const normScore = this.gameScore - this.lowestScore;
       const percent = normScore / range;
-      const greenPercent = Math.max(percent - 0.5, 0.0) * 2 * 100;
-      const redPercent = Math.max(1 - percent - 0.5, 0.0) * 2 * 100;
+      const upperPercentile = Math.max(percent - 0.5, 0.0) * 2 * 100;
+      const lowerPercentile = Math.max(1 - percent - 0.5, 0.0) * 2 * 100;
 
-      return { green: greenPercent, red: redPercent };
+      if (this.highestWins) {
+        return { green: upperPercentile, red: lowerPercentile };
+      } else {
+        return { green: lowerPercentile, red: upperPercentile };
+      }
     },
     scoreColor() {
       const { green, red } = this.scoreColorRatio;

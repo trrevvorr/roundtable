@@ -21,6 +21,7 @@
         :roundDirty="roundDirty"
         :highestScore="highestScore"
         :lowestScore="lowestScore"
+        :highestWins="currentGameSettings.highestWins"
       />
     </div>
     <v-fab-transition>
