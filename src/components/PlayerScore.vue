@@ -18,18 +18,10 @@
       </p>
     </v-card-text>
     <v-card-actions>
-      <v-btn
-        color="error"
-        rounded
-        @click="$emit('change', (roundScore || 0) - step)"
-      >
+      <v-btn color="error" @click="$emit('change', (roundScore || 0) - step)">
         -{{ step }}
       </v-btn>
-      <v-btn
-        color="success"
-        rounded
-        @click="$emit('change', (roundScore || 0) + step)"
-      >
+      <v-btn color="success" @click="$emit('change', (roundScore || 0) + step)">
         +{{ step }}
       </v-btn>
     </v-card-actions>
@@ -55,9 +47,5 @@ export default {
 .score {
   display: grid;
   grid-template-columns: auto 1fr auto;
-}
-
-.player-score {
-  margin: 1rem;
 }
 </style>

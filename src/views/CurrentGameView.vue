@@ -1,9 +1,16 @@
 <template>
   <div class="current-game">
-    <h2>Settings</h2>
-    <pre>{{ JSON.stringify(currentGameSettings, null, 2) }}</pre>
-    <h2>Rounds</h2>
-    <pre>{{ JSON.stringify(currentGameRounds, null, 2) }}</pre>
+    <CurrentGameMenu
+      class="game-menu"
+      :gameName="currentGameSettings.name"
+      :highestWins="currentGameSettings.highestWins"
+      :maxPoints="currentGameSettings.maxPoints"
+      :roundDirty="roundDirty"
+      :rounds="currentGameRounds"
+      :players="currentGameSettings.players"
+      @saveRound="saveRound"
+      @endGame="endGame"
+    />
     <div class="players">
       <PlayerScore
         v-for="player in currentGameSettings.players"
@@ -22,10 +29,12 @@
 <script>
 import { mapMutations, mapGetters } from "vuex";
 import PlayerScore from "@/components/PlayerScore.vue";
+import CurrentGameMenu from "@/components/CurrentGameMenu.vue";
+import router from "@/router";
 
 export default {
   name: "CurrentGameView",
-  components: { PlayerScore },
+  components: { PlayerScore, CurrentGameMenu },
   data: () => ({
     newRound: {},
     roundDirty: false,
@@ -34,10 +43,18 @@ export default {
     this.resetRound();
   },
   computed: {
-    ...mapGetters(["currentGameRounds", "currentGameSettings"]),
+    ...mapGetters([
+      "currentGameRounds",
+      "currentGameSettings",
+      "previousGameStates",
+    ]),
   },
   methods: {
-    ...mapMutations(["setCurrentGameRounds"]),
+    ...mapMutations([
+      "setCurrentGameRounds",
+      "setPreviousGameStates",
+      "setCurrentGameSettings",
+    ]),
     resetRound() {
       const round = {};
       this.currentGameSettings.players.forEach((player) => {
@@ -47,7 +64,7 @@ export default {
       this.roundDirty = false;
     },
     getScoreForPlayer(player) {
-      const total = 0;
+      let total = 0;
       this.currentGameRounds.forEach((round) => {
         total += round[player];
       });
@@ -56,6 +73,23 @@ export default {
     setRoundScore(player, newRoundScore) {
       this.newRound[player] = newRoundScore;
       this.roundDirty = true;
+    },
+    saveRound() {
+      this.setCurrentGameRounds([...this.currentGameRounds, this.newRound]);
+      this.resetRound();
+    },
+    endGame() {
+      const newPrevGames = [
+        ...this.previousGameStates,
+        {
+          settings: this.currentGameSettings,
+          rounds: this.currentGameRounds,
+        },
+      ];
+      this.setPreviousGameStates(newPrevGames);
+      this.setCurrentGameRounds([]);
+      this.setCurrentGameSettings({});
+      router.push("/new");
     },
   },
 };
@@ -66,8 +100,13 @@ export default {
   margin: 2rem;
 }
 
+.game-menu {
+  margin-bottom: 1rem;
+}
+
 .players {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
 }
 </style>

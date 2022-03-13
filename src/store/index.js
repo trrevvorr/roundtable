@@ -32,6 +32,9 @@ export default new Vuex.Store({
     currentGameRounds: state => {
       return [...state.gameState.current.rounds];
     },
+    previousGameStates: state => {
+      return [...state.gameState.previous];
+    },
   },
   mutations: {
     setNewGameSettings(state, settings) {
@@ -39,16 +42,32 @@ export default new Vuex.Store({
       setAllData(state);
     },
     setNewGamePlayers(state, players) {
-      state.gameSettings.players = [...players];
-      setAllData(state);
+      if (Array.isArray(players)) {
+        state.gameSettings.players = [...players];
+        setAllData(state);
+      } else {
+        console.error("setNewGamePlayers called with", players);
+      }
     },
     setCurrentGameSettings(state, settings) {
       state.gameState.current.settings = { ...settings };
       setAllData(state);
     },
     setCurrentGameRounds(state, rounds) {
-      state.gameState.current.rounds = { ...rounds };
-      setAllData(state);
+      if (Array.isArray(rounds)) {
+        state.gameState.current.rounds = [...rounds];
+        setAllData(state);
+      } else {
+        console.error("setCurrentGameRounds called with", rounds);
+      }
+    },
+    setPreviousGameStates(state, prevGames) {
+      if (Array.isArray(prevGames)) {
+        state.gameState.previous = [...prevGames];
+        setAllData(state);
+      } else {
+        console.error("setPreviousGameStates called with", prevGames);
+      }
     }
   },
   actions: {
