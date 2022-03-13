@@ -9,11 +9,11 @@
           (val) => {
             setNewGameSettings({
               ...newGameSettings,
-              name: val,
+              name: val.trim(),
             });
           }
         "
-        :counter="15"
+        :counter="10"
         :rules="nameRules"
         label="Name"
         required
@@ -96,10 +96,12 @@ export default {
   data: () => ({
     valid: true,
     nameRules: [
-      (v) => !!v || "Name is required",
-      (v) => (v && v.length <= 15) || "Name must be less than 15 characters",
+      (v) => (!!v && !!v.trim()) || "Required",
+      (v) => (v && v.length <= 10) || "Too long",
     ],
-    maxPointsRules: [(v) => v === "" || parseInt(v) > 0 || "Must be positive"],
+    maxPointsRules: [
+      (v) => v === null || parseInt(v) > 0 || "Must be positive",
+    ],
     stepSizeRules: [
       (v) => !!v || "Required",
       (v) => parseInt(v) > 0 || "Must be positive",

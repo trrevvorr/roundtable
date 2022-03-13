@@ -47,13 +47,13 @@
         <div class="new-player-form">
           <v-text-field
             v-model="newPlayer"
-            :counter="15"
+            :counter="10"
             :rules="newPlayerRules"
             label="New Player"
             required
           ></v-text-field>
           <v-btn
-            :disabled="!valid"
+            :disabled="!valid || !newPlayer"
             color="success"
             class="mr-4"
             @click="addPlayer"
@@ -77,14 +77,12 @@ export default {
   data: () => ({
     valid: true,
     newPlayer: "",
-    newPlayerRules: [
-      (v) => !!v || "Required",
-      (v) => (v && v.length <= 10) || "Must be less than 15 characters",
-    ],
+    newPlayerRules: [(v) => !v || v.length <= 10 || "Too long"],
   }),
   created() {
     this.newPlayerRules.push(
       (v) =>
+        !v ||
         (v && this.newGamePlayers && !this.newGamePlayers.includes(v)) ||
         "Must be unique"
     );
@@ -100,8 +98,11 @@ export default {
   methods: {
     ...mapMutations(["setNewGamePlayers"]),
     addPlayer() {
-      this.setNewGamePlayers([...this.newGamePlayers, this.newPlayer]);
-      this.newPlayer = undefined;
+      const newPlayer = this.newPlayer.trim();
+      if (newPlayer) {
+        this.setNewGamePlayers([...this.newGamePlayers, newPlayer]);
+        this.newPlayer = undefined;
+      }
     },
   },
 };
