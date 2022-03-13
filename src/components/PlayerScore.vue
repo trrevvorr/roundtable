@@ -19,10 +19,12 @@
           <span class="round-points" v-if="roundDirty">
             <input
               type="number"
+              max="999"
+              min="-999"
               class="text-h2 input"
               :value="roundScore"
               :step="step"
-              @change="$emit('change', parseInt($event.target.value) || 0)"
+              @change="updateRoundScore($event.target.value)"
             />
           </span>
         </p>
@@ -31,14 +33,14 @@
         <v-btn
           class="modify-score"
           color="red"
-          @click="$emit('change', (roundScore || 0) - step)"
+          @click="updateRoundScore((roundScore || 0) - step)"
         >
           -{{ step }}
         </v-btn>
         <v-btn
           class="modify-score"
           color="green"
-          @click="$emit('change', (roundScore || 0) + step)"
+          @click="updateRoundScore((roundScore || 0) + step)"
         >
           +{{ step }}
         </v-btn>
@@ -88,6 +90,19 @@ export default {
       }
     },
   },
+  methods: {
+    updateRoundScore(newScore) {
+      let validatedScore = parseInt(newScore) || 0;
+      if (validatedScore > 999) {
+        validatedScore = 999;
+      }
+      if (validatedScore < -999) {
+        validatedScore = -999;
+      }
+
+      this.$emit("change", validatedScore);
+    },
+  },
 };
 </script>
 
@@ -117,7 +132,7 @@ export default {
 }
 
 .round-points .input {
-  max-width: 120px;
+  max-width: 8rem;
   color: inherit;
 }
 </style>
