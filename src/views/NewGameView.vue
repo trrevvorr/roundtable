@@ -71,7 +71,12 @@
         "
       />
 
-      <v-btn :disabled="!valid" color="success" class="mr-4" @click="startGame">
+      <v-btn
+        :disabled="!valid || !newGameSettings.players.length"
+        color="success"
+        class="mr-4"
+        @click="startGame"
+      >
         Start Game
       </v-btn>
     </v-form>
