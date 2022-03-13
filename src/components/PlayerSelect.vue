@@ -80,11 +80,15 @@ export default {
     newPlayerRules: [
       (v) => !!v || "Required",
       (v) => (v && v.length <= 10) || "Must be less than 15 characters",
-      // (v) =>
-      //   (v && this.newGamePlayers && !this.newGamePlayers.includes(v)) ||
-      //   "Must be unique",
     ],
   }),
+  created() {
+    this.newPlayerRules.push(
+      (v) =>
+        (v && this.newGamePlayers && !this.newGamePlayers.includes(v)) ||
+        "Must be unique"
+    );
+  },
   computed: {
     ...mapGetters(["newGamePlayers"]),
     nonSelectedPlayers() {
@@ -97,7 +101,7 @@ export default {
     ...mapMutations(["setNewGamePlayers"]),
     addPlayer() {
       this.setNewGamePlayers([...this.newGamePlayers, this.newPlayer]);
-      this.newPlayer = "";
+      this.newPlayer = undefined;
     },
   },
 };
