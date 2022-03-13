@@ -1,42 +1,50 @@
 <template>
-  <v-card class="player-score" :color="scoreColor">
-    <v-card-text>
-      <p class="text-h4">
-        {{ name }}
-      </p>
-      <p class="text-h2 points-field">
-        <span class="game-points" :class="{ subtle: roundDirty }">{{
-          gameScore
-        }}</span>
-        <span v-if="roundDirty" class="text-h2 symbol">+</span>
-        <span class="round-points" v-if="roundDirty">
-          <input
-            type="number"
-            class="text-h2 input"
-            :value="roundScore"
-            :step="step"
-            @change="$emit('change', parseInt($event.target.value) || 0)"
-          />
-        </span>
-      </p>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn
-        class="modify-score"
-        color="red"
-        @click="$emit('change', (roundScore || 0) - step)"
-      >
-        -{{ step }}
-      </v-btn>
-      <v-btn
-        class="modify-score"
-        color="green"
-        @click="$emit('change', (roundScore || 0) + step)"
-      >
-        +{{ step }}
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+  <v-badge
+    right
+    overlap
+    bordered
+    color="primary"
+    :value="roundDirty && !roundScore"
+  >
+    <v-card class="player-score" :color="scoreColor">
+      <v-card-text>
+        <p class="text-h4">
+          {{ name }}
+        </p>
+        <p class="text-h2 points-field">
+          <span class="game-points" :class="{ subtle: roundDirty }">{{
+            gameScore
+          }}</span>
+          <span v-if="roundDirty" class="text-h2 symbol">+</span>
+          <span class="round-points" v-if="roundDirty">
+            <input
+              type="number"
+              class="text-h2 input"
+              :value="roundScore"
+              :step="step"
+              @change="$emit('change', parseInt($event.target.value) || 0)"
+            />
+          </span>
+        </p>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn
+          class="modify-score"
+          color="red"
+          @click="$emit('change', (roundScore || 0) - step)"
+        >
+          -{{ step }}
+        </v-btn>
+        <v-btn
+          class="modify-score"
+          color="green"
+          @click="$emit('change', (roundScore || 0) + step)"
+        >
+          +{{ step }}
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-badge>
 </template>
 
 <script>

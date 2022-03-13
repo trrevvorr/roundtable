@@ -5,10 +5,8 @@
       :gameName="currentGameSettings.name"
       :highestWins="currentGameSettings.highestWins"
       :maxPoints="currentGameSettings.maxPoints"
-      :roundDirty="roundDirty"
       :rounds="currentGameRounds"
       :players="currentGameSettings.players"
-      @saveRound="saveRound"
       @endGame="endGame"
     />
     <div class="players">
@@ -25,6 +23,21 @@
         :lowestScore="lowestScore"
       />
     </div>
+    <v-fab-transition>
+      <v-btn
+        v-show="roundDirty"
+        key="save-round"
+        color="primary"
+        fab
+        large
+        bottom
+        right
+        fixed
+        @click="saveRound"
+      >
+        <v-icon large>mdi-check</v-icon>
+      </v-btn>
+    </v-fab-transition>
   </div>
 </template>
 
