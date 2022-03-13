@@ -18,11 +18,9 @@ export default {
             // Here the actual reload of the page occurs
             window.location.reload();
         });
-        console.log("LISTENING FOR UPDATE")
     },
     methods: {
         updateAvailable(event) {
-            console.log("UPDATE AVAILABLE")
             this.registration = event.detail;
             this.updateExists = true;
         },
