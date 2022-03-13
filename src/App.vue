@@ -59,19 +59,16 @@ export default {
     this.setNavItems();
   },
   computed: {
-    ...mapGetters(["currentGameSettings"]),
-    isGameActive() {
-      return !!this.currentGameSettings;
-    },
+    ...mapGetters(["isGameInProgress"]),
   },
   watch: {
-    isGameActive() {
+    isGameInProgress() {
       this.setNavItems();
     },
   },
   methods: {
     setNavItems() {
-      if (this.isGameActive) {
+      if (this.isGameInProgress) {
         this.items = [...otherItems, currentGameItem];
       } else {
         this.items = [...otherItems];

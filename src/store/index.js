@@ -32,6 +32,9 @@ export default new Vuex.Store({
     currentGameRounds: state => {
       return [...state.gameState.current.rounds];
     },
+    isGameInProgress: state => {
+      return JSON.stringify(state.gameState.current.settings) !== "{}";
+    },
     previousGameStates: state => {
       return [...state.gameState.previous];
     },
@@ -67,6 +70,22 @@ export default new Vuex.Store({
         setAllData(state);
       } else {
         console.error("setPreviousGameStates called with", prevGames);
+      }
+    },
+    endCurrentGame(state) {
+      if (JSON.stringify(state.gameState.current.settings) !== "{}") {
+        const newPrevGames = [
+          ...state.gameState.previous,
+          {
+            settings: { ...state.gameState.current.settings },
+            rounds: [...state.gameState.current.rounds],
+          },
+        ];
+        state.gameState.previous = newPrevGames;
+        state.gameState.current.settings = {};
+        state.gameState.current.rounds = [];
+      } else {
+        console.warn("Could not save current game to previous games because either settings was unset");
       }
     }
   },

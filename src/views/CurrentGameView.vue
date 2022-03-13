@@ -43,16 +43,12 @@ export default {
     this.resetRound();
   },
   computed: {
-    ...mapGetters([
-      "currentGameRounds",
-      "currentGameSettings",
-      "previousGameStates",
-    ]),
+    ...mapGetters(["currentGameRounds", "currentGameSettings"]),
   },
   methods: {
     ...mapMutations([
       "setCurrentGameRounds",
-      "setPreviousGameStates",
+      "endCurrentGame",
       "setCurrentGameSettings",
     ]),
     resetRound() {
@@ -79,16 +75,7 @@ export default {
       this.resetRound();
     },
     endGame() {
-      const newPrevGames = [
-        ...this.previousGameStates,
-        {
-          settings: this.currentGameSettings,
-          rounds: this.currentGameRounds,
-        },
-      ];
-      this.setPreviousGameStates(newPrevGames);
-      this.setCurrentGameRounds([]);
-      this.setCurrentGameSettings({});
+      this.endCurrentGame();
       router.push("/new");
     },
   },

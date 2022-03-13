@@ -103,8 +103,16 @@ export default {
     ...mapGetters(["newGameSettings"]),
   },
   methods: {
-    ...mapMutations(["setNewGameSettings", "setCurrentGameSettings"]),
+    ...mapMutations([
+      "setNewGameSettings",
+      "setCurrentGameSettings",
+      "endCurrentGame",
+    ]),
     startGame() {
+      // end current game if one exists
+      this.endCurrentGame();
+
+      // start new game
       this.setCurrentGameSettings(this.newGameSettings);
       router.push("/current");
     },
