@@ -4,7 +4,7 @@
 
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-text-field
-        :value="name"
+        :value="newGameSettings.name"
         @input="
           (val) => {
             setNewGameSettings({
@@ -21,7 +21,7 @@
 
       <v-text-field
         type="number"
-        :value="maxPoints"
+        :value="newGameSettings.maxPoints"
         :rules="maxPointsRules"
         @input="
           (val) =>
@@ -35,7 +35,7 @@
 
       <v-text-field
         type="number"
-        :value="stepSize"
+        :value="newGameSettings.stepSize"
         :rules="stepSizeRules"
         required
         @input="
@@ -48,7 +48,17 @@
         label="Step Size"
       ></v-text-field>
 
-      <v-checkbox v-model="highestWins" label="Highest Score Wins"></v-checkbox>
+      <v-checkbox
+        :input-value="newGameSettings.highestWins"
+        @change="
+          (val) =>
+            setNewGameSettings({
+              ...newGameSettings,
+              highestWins: val,
+            })
+        "
+        label="Highest Score Wins"
+      ></v-checkbox>
 
       <PlayerSelect
         :selectedPlayers="newGameSettings.players"
@@ -80,25 +90,16 @@ export default {
   },
   data: () => ({
     valid: true,
-    name: "",
     nameRules: [
       (v) => !!v || "Name is required",
       (v) => (v && v.length <= 15) || "Name must be less than 15 characters",
     ],
-    maxPoints: null,
     maxPointsRules: [(v) => v === "" || parseInt(v) > 0 || "Must be positive"],
-    stepSize: 1,
     stepSizeRules: [
       (v) => !!v || "Required",
       (v) => parseInt(v) > 0 || "Must be positive",
     ],
-    highestWins: true,
   }),
-  created() {
-    this.name = this.newGameSettings.name;
-    this.maxPoints = this.newGameSettings.maxPoints;
-    this.highestWins = this.newGameSettings.highestWins;
-  },
   computed: {
     ...mapGetters(["newGameSettings"]),
   },

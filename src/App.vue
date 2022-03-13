@@ -5,9 +5,10 @@
       <v-toolbar-title>Roundtable</v-toolbar-title>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" absolute temporary>
-      <br />
-      <br />
-      <br />
+      <v-list-item-title class="text-h6 nav-title">
+        Navigation
+      </v-list-item-title>
+      <v-divider></v-divider>
       <v-list dense nav>
         <v-list-item
           v-for="item in items"
@@ -29,11 +30,18 @@
     <v-main>
       <router-view />
     </v-main>
+    <v-snackbar bottom :value="updateExists" :timeout="-1">
+      An update is available
+      <template v-slot:action>
+        <v-btn text color="primary" @click="refreshApp"> Update </v-btn>
+      </template>
+    </v-snackbar>
   </v-app>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import update from "./mixins/update";
 
 const currentGameItem = {
   title: "Active Game",
@@ -48,6 +56,7 @@ const otherItems = [
 
 export default {
   name: "App",
+  mixins: [update],
   metaInfo: {
     title: "Roundtable",
     meta: [
@@ -83,3 +92,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.nav-title {
+  margin: 1rem;
+}
+</style>
