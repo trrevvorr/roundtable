@@ -4,18 +4,35 @@
       <p class="text-h4">
         {{ name }}
       </p>
-      <p class="text-h2">
-        <span :class="{ subtle: roundDirty }">{{ gameScore }}</span>
-        <span v-if="roundDirty"
-          >{{ roundScore >= 0 ? " + " : " - " }}{{ Math.abs(roundScore) }}</span
-        >
+      <p class="text-h2 points-field">
+        <span class="game-points" :class="{ subtle: roundDirty }">{{
+          gameScore
+        }}</span>
+        <span v-if="roundDirty" class="text-h2 symbol">+</span>
+        <span class="round-points" v-if="roundDirty">
+          <input
+            type="number"
+            class="text-h2 input"
+            :value="roundScore"
+            :step="step"
+            @change="$emit('change', parseInt($event.target.value) || 0)"
+          />
+        </span>
       </p>
     </v-card-text>
     <v-card-actions>
-      <v-btn color="error" @click="$emit('change', (roundScore || 0) - step)">
+      <v-btn
+        class="modify-score"
+        color="error"
+        @click="$emit('change', (roundScore || 0) - step)"
+      >
         -{{ step }}
       </v-btn>
-      <v-btn color="success" @click="$emit('change', (roundScore || 0) + step)">
+      <v-btn
+        class="modify-score"
+        color="success"
+        @click="$emit('change', (roundScore || 0) + step)"
+      >
         +{{ step }}
       </v-btn>
     </v-card-actions>
@@ -45,5 +62,25 @@ export default {
 
 .subtle {
   opacity: 50%;
+}
+
+.modify-score {
+  touch-action: manipulation;
+}
+
+.points-field {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  grid-column-gap: 0.5rem;
+}
+
+.points-field .game-points,
+.points-field .symbol {
+  margin-top: 4px;
+}
+
+.round-points .input {
+  max-width: 120px;
+  color: inherit;
 }
 </style>

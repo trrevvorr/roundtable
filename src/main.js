@@ -4,8 +4,10 @@ import './registerServiceWorker';
 import router from './router';
 import store from './store';
 import vuetify from './plugins/vuetify'
+import VueMeta from 'vue-meta'
 
 Vue.config.productionTip = false;
+Vue.use(VueMeta);
 
 new Vue({
   router,

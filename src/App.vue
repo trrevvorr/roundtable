@@ -48,7 +48,13 @@ const otherItems = [
 
 export default {
   name: "App",
-
+  metaInfo: {
+    title: "Roundtable",
+    meta: [
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width" },
+    ],
+  },
   data: () => ({
     drawer: false,
     group: null,
