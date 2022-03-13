@@ -11,18 +11,22 @@
     </v-card-actions>
     <v-expand-transition>
       <div v-show="showRounds">
-        <v-divider></v-divider>
+        <br />
         <v-data-table
-          :headers="
-            players.map((player) => ({
+          :headers="[
+            { text: 'Round', value: 'round', divider: true },
+            ...players.map((player) => ({
               text: player,
               value: player,
-            }))
+            })),
+          ]"
+          :items="
+            rounds.map((round, index) => ({ ...round, round: index + 1 }))
           "
-          :items="rounds"
-          class="elevation-1"
+          class="rounds-table"
           disable-filtering
           disable-sort
+          no-data-text="No rounds entered"
         ></v-data-table>
       </div>
     </v-expand-transition>
@@ -60,5 +64,9 @@ export default {
 .score {
   display: grid;
   grid-template-columns: auto 1fr auto;
+}
+
+.rounds-table {
+  margin: 0 2rem;
 }
 </style>
