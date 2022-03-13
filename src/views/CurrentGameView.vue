@@ -21,6 +21,8 @@
         :step="currentGameSettings.stepSize"
         @change="(score) => setRoundScore(player, score)"
         :roundDirty="roundDirty"
+        :highestScore="highestScore"
+        :lowestScore="lowestScore"
       />
     </div>
   </div>
@@ -44,6 +46,20 @@ export default {
   },
   computed: {
     ...mapGetters(["currentGameRounds", "currentGameSettings"]),
+    highestScore() {
+      return Math.max(
+        ...this.currentGameSettings.players.map((player) =>
+          this.getScoreForPlayer(player)
+        )
+      );
+    },
+    lowestScore() {
+      return Math.min(
+        ...this.currentGameSettings.players.map((player) =>
+          this.getScoreForPlayer(player)
+        )
+      );
+    },
   },
   methods: {
     ...mapMutations([

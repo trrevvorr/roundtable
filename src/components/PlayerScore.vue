@@ -1,5 +1,5 @@
 <template>
-  <v-card class="player-score">
+  <v-card class="player-score" :color="scoreColor">
     <v-card-text>
       <p class="text-h4">
         {{ name }}
@@ -23,14 +23,14 @@
     <v-card-actions>
       <v-btn
         class="modify-score"
-        color="error"
+        color="red"
         @click="$emit('change', (roundScore || 0) - step)"
       >
         -{{ step }}
       </v-btn>
       <v-btn
         class="modify-score"
-        color="success"
+        color="green"
         @click="$emit('change', (roundScore || 0) + step)"
       >
         +{{ step }}
@@ -40,6 +40,9 @@
 </template>
 
 <script>
+import colors from "vuetify/lib/util/colors";
+import tinycolor from "tinycolor2";
+
 export default {
   name: "PlayerSelect",
   props: {
@@ -48,9 +51,35 @@ export default {
     roundScore: Number,
     step: Number,
     roundDirty: Boolean,
+    highestScore: Number,
+    lowestScore: Number,
   },
   data: () => ({}),
-  methods: {},
+  computed: {
+    scoreColorRatio() {
+      const range = this.highestScore - this.lowestScore;
+      const normScore = this.gameScore - this.lowestScore;
+      const percent = normScore / range;
+      const greenPercent = Math.max(percent - 0.5, 0.0) * 2 * 100;
+      const redPercent = Math.max(1 - percent - 0.5, 0.0) * 2 * 100;
+
+      return { green: greenPercent, red: redPercent };
+    },
+    scoreColor() {
+      const { green, red } = this.scoreColorRatio;
+      const darkColor = colors.grey.darken4;
+
+      if (green > 0) {
+        return (
+          "#" + tinycolor.mix(darkColor, colors.green.darken4, green).toHex()
+        );
+      } else if (red > 0) {
+        return "#" + tinycolor.mix(darkColor, colors.red.darken4, red).toHex();
+      } else {
+        return darkColor;
+      }
+    },
+  },
 };
 </script>
 
