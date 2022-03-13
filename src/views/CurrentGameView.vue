@@ -113,7 +113,9 @@ export default {
 
 <style scoped>
 .current-game {
-  margin: 2rem;
+  margin: 0 auto;
+  padding: 30px;
+  max-width: 2500px;
 }
 
 .game-menu {
@@ -122,7 +124,44 @@ export default {
 
 .players {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 1rem;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 15px;
+}
+/* 
+cards must be at least 330 px wide 
++ 15px of gap between cards
++ 60px padding around page
+max-width = n(330 + 15) - 15 + 60
+*/
+
+/*  6(330 + 15) - 15 + 60 = 2115 */
+@media (max-width: 2115px) {
+  .players {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+/*  5(330 + 15) - 15 + 60 = 1770 */
+@media (max-width: 1770px) {
+  .players {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+/*  4(330 + 15) - 15 + 60 = 1425 */
+@media (max-width: 1425px) {
+  .players {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+/*  3(330 + 15) - 15 + 60 = 1080 */
+@media (max-width: 1080px) {
+  .players {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+/*  2(330 + 15) - 15 + 60 = 735 */
+@media (max-width: 735px) {
+  .players {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
