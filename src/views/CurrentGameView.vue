@@ -1,5 +1,5 @@
 <template>
-  <div class="current-game">
+  <div class="current-game" v-if="!gameOver">
     <CurrentGameMenu
       class="game-menu"
       :gameName="currentGameSettings.name"
@@ -7,7 +7,7 @@
       :maxPoints="currentGameSettings.maxPoints"
       :rounds="currentGameRounds"
       :players="currentGameSettings.players"
-      @endGame="endGame"
+      @endGame="endGameConfirmation = true"
     />
     <div class="players">
       <PlayerScore
@@ -24,34 +24,48 @@
         :highestWins="currentGameSettings.highestWins"
       />
     </div>
-    <!-- <v-fab-transition> -->
-    <v-btn
-      v-if="newRoundMode"
-      key="save-round"
-      color="primary"
-      large
-      bottom
-      right
-      fixed
-      rounded
-      @click="saveRound"
-    >
-      Save Round
-    </v-btn>
-    <v-btn
-      v-else
-      key="new-round"
-      color="primary"
-      rounded
-      large
-      bottom
-      right
-      fixed
-      @click="newRoundMode = true"
-    >
-      Add Round
-    </v-btn>
-    <!-- </v-fab-transition> -->
+    <div>
+      <v-btn
+        v-if="newRoundMode"
+        key="save-round"
+        color="primary"
+        large
+        bottom
+        right
+        fixed
+        rounded
+        @click="saveRound"
+      >
+        Save Round
+      </v-btn>
+      <v-btn
+        v-else
+        key="new-round"
+        color="primary"
+        rounded
+        large
+        bottom
+        right
+        fixed
+        @click="newRoundMode = true"
+      >
+        Add Round
+      </v-btn>
+    </div>
+    <GameOverDialog
+      v-model="gameOverDialog"
+      :players="currentGameSettings.players"
+      :rounds="currentGameRounds"
+      :highestWins="currentGameSettings.highestWins"
+      @endGame="endGame"
+    />
+    <ConfirmationDialog
+      v-model="endGameConfirmation"
+      confirmText="End Game"
+      denyText="Go Back"
+      title="End Game?"
+      @confirm="endGame"
+    />
   </div>
 </template>
 
@@ -59,14 +73,24 @@
 import { mapMutations, mapGetters } from "vuex";
 import PlayerScore from "@/components/PlayerScore.vue";
 import CurrentGameMenu from "@/components/CurrentGameMenu.vue";
+import GameOverDialog from "@/components/GameOverDialog.vue";
+import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import router from "@/router";
 
 export default {
   name: "CurrentGameView",
-  components: { PlayerScore, CurrentGameMenu },
+  components: {
+    PlayerScore,
+    CurrentGameMenu,
+    GameOverDialog,
+    ConfirmationDialog,
+  },
   data: () => ({
     newRound: {},
     newRoundMode: false,
+    gameOverDialog: false,
+    endGameConfirmation: false,
+    gameOver: false,
   }),
   created() {
     this.resetRound();
@@ -86,6 +110,16 @@ export default {
           this.getScoreForPlayer(player)
         )
       );
+    },
+  },
+  watch: {
+    highestScore() {
+      if (
+        this.currentGameSettings.maxPoints &&
+        this.highestScore >= this.currentGameSettings.maxPoints
+      ) {
+        this.gameOverDialog = true;
+      }
     },
   },
   methods: {
@@ -117,6 +151,7 @@ export default {
       this.resetRound();
     },
     endGame() {
+      this.gameOver = true; // prevents errors during transition to game over
       this.endCurrentGame();
       router.push("/new");
     },
