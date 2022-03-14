@@ -21,10 +21,12 @@ const routes = [
   {
     path: '/current',
     name: 'current',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "current" */ '../views/CurrentGameView.vue'),
+  },
+  {
+    path: '/past-games',
+    name: 'past-games',
+    component: () => import(/* webpackChunkName: "past-games" */ '../views/PreviousGamesView.vue'),
   },
 ];
 

@@ -98,16 +98,22 @@ export default {
   computed: {
     ...mapGetters(["currentGameRounds", "currentGameSettings"]),
     highestScore() {
-      return Math.max(
-        ...this.currentGameSettings.players.map((player) =>
-          this.getScoreForPlayer(player)
+      return (
+        !this.gameOver &&
+        Math.max(
+          ...this.currentGameSettings.players.map((player) =>
+            this.getScoreForPlayer(player)
+          )
         )
       );
     },
     lowestScore() {
-      return Math.min(
-        ...this.currentGameSettings.players.map((player) =>
-          this.getScoreForPlayer(player)
+      return (
+        !this.gameOver &&
+        Math.min(
+          ...this.currentGameSettings.players.map((player) =>
+            this.getScoreForPlayer(player)
+          )
         )
       );
     },

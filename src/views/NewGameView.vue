@@ -115,13 +115,12 @@ export default {
       "setNewGameSettings",
       "setCurrentGameSettings",
       "endCurrentGame",
+      "setCurrentGameData",
+      "startNewGame",
     ]),
     startGame() {
-      // end current game if one exists
       this.endCurrentGame();
-
-      // start new game
-      this.setCurrentGameSettings(this.newGameSettings);
+      this.startNewGame(this.newGameSettings);
       router.push("/current");
     },
   },

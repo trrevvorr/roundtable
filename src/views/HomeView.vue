@@ -19,7 +19,8 @@
           <v-list-item-title>Resume game in progress</v-list-item-title>
           <v-list-item-subtitle>
             {{ currentGameSettings.name }},
-            {{ currentGameSettings.players.length }} players
+            {{ currentGameSettings.players.length }} players, started on
+            {{ new Date(currentGameData.startedAt).toLocaleString() }}
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -36,11 +37,18 @@ export default {
   data: () => ({
     drawer: false,
     group: null,
-    items: [{ title: "New game", icon: "mdi-plus", path: "/new" }],
+    items: [
+      { title: "New game", icon: "mdi-plus", path: "/new" },
+      { title: "Past games", icon: "mdi-history", path: "/past-games" },
+    ],
     right: null,
   }),
   computed: {
-    ...mapGetters(["isGameInProgress", "currentGameSettings"]),
+    ...mapGetters([
+      "isGameInProgress",
+      "currentGameSettings",
+      "currentGameData",
+    ]),
   },
 };
 </script>

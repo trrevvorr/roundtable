@@ -13,7 +13,8 @@
     "gameState": {
         "current": {
             "settings": {},
-            "rounds": []
+            "rounds": [],
+            "data": {}
         },
         "previous": []
     }
