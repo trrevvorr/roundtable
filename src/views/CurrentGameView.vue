@@ -18,27 +18,40 @@
         :roundScore="newRound[player]"
         :step="currentGameSettings.stepSize"
         @change="(score) => setRoundScore(player, score)"
-        :roundDirty="roundDirty"
+        :newRoundMode="newRoundMode"
         :highestScore="highestScore"
         :lowestScore="lowestScore"
         :highestWins="currentGameSettings.highestWins"
       />
     </div>
-    <v-fab-transition>
-      <v-btn
-        v-show="roundDirty"
-        key="save-round"
-        color="primary"
-        fab
-        large
-        bottom
-        right
-        fixed
-        @click="saveRound"
-      >
-        <v-icon large>mdi-check</v-icon>
-      </v-btn>
-    </v-fab-transition>
+    <!-- <v-fab-transition> -->
+    <v-btn
+      v-if="newRoundMode"
+      key="save-round"
+      color="primary"
+      large
+      bottom
+      right
+      fixed
+      rounded
+      @click="saveRound"
+    >
+      Save Round
+    </v-btn>
+    <v-btn
+      v-else
+      key="new-round"
+      color="primary"
+      rounded
+      large
+      bottom
+      right
+      fixed
+      @click="newRoundMode = true"
+    >
+      Add Round
+    </v-btn>
+    <!-- </v-fab-transition> -->
   </div>
 </template>
 
@@ -53,7 +66,7 @@ export default {
   components: { PlayerScore, CurrentGameMenu },
   data: () => ({
     newRound: {},
-    roundDirty: false,
+    newRoundMode: false,
   }),
   created() {
     this.resetRound();
@@ -87,7 +100,7 @@ export default {
         round[player] = 0;
       });
       this.newRound = Object.assign({}, round);
-      this.roundDirty = false;
+      this.newRoundMode = false;
     },
     getScoreForPlayer(player) {
       let total = 0;
@@ -98,7 +111,6 @@ export default {
     },
     setRoundScore(player, newRoundScore) {
       this.newRound[player] = newRoundScore;
-      this.roundDirty = true;
     },
     saveRound() {
       this.setCurrentGameRounds([...this.currentGameRounds, this.newRound]);
@@ -129,38 +141,38 @@ export default {
   grid-gap: 15px;
 }
 /* 
-cards must be at least 330 px wide 
+cards must be at least 245 px wide 
 + 15px of gap between cards
 + 60px padding around page
-max-width = n(330 + 15) - 15 + 60
+max-width = n(245 + 15) - 15 + 60
 */
 
-/*  6(330 + 15) - 15 + 60 = 2115 */
-@media (max-width: 2115px) {
+/*  6(245 + 15) - 15 + 60 = 1605 */
+@media (max-width: 1605px) {
   .players {
     grid-template-columns: repeat(5, 1fr);
   }
 }
-/*  5(330 + 15) - 15 + 60 = 1770 */
-@media (max-width: 1770px) {
+/*  5(245 + 15) - 15 + 60 = 1345 */
+@media (max-width: 1345px) {
   .players {
     grid-template-columns: repeat(4, 1fr);
   }
 }
-/*  4(330 + 15) - 15 + 60 = 1425 */
-@media (max-width: 1425px) {
+/*  4(245 + 15) - 15 + 60 = 1085 */
+@media (max-width: 1085px) {
   .players {
     grid-template-columns: repeat(3, 1fr);
   }
 }
-/*  3(330 + 15) - 15 + 60 = 1080 */
-@media (max-width: 1080px) {
+/*  3(245 + 15) - 15 + 60 = 825 */
+@media (max-width: 825px) {
   .players {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-/*  2(330 + 15) - 15 + 60 = 735 */
-@media (max-width: 735px) {
+/* 2(245 + 15) - 15 + 60 = 565 */
+@media (max-width: 565px) {
   .players {
     grid-template-columns: 1fr;
   }

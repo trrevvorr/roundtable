@@ -50,7 +50,7 @@ export default {
     gameDescription() {
       if (this.maxPoints) {
         return `First to ${this.maxPoints} ${
-          this.highestWins ? "wins" : "looses"
+          this.highestWins ? "wins" : "loses"
         }`;
       } else {
         return `${this.highestWins ? "Highest" : "Lowest"} score wins`;

@@ -4,32 +4,37 @@
     overlap
     bordered
     color="primary"
-    :value="roundDirty && !roundScore"
+    :value="newRoundMode && !roundScore"
   >
     <v-card class="player-score" :color="scoreColor">
       <v-card-text>
-        <p class="text-h4">
+        <div class="text-h4">
           {{ name }}
-        </p>
-        <p class="text-h2 points-field">
-          <span class="game-points" :class="{ subtle: roundDirty }">{{
+        </div>
+        <div
+          :class="{
+            'points-field': true,
+            'large-score': highestScore > 99 || lowestScore < -99,
+          }"
+        >
+          <span class="game-points" :class="{ subtle: newRoundMode }">{{
             gameScore
           }}</span>
-          <span v-if="roundDirty" class="text-h2 symbol">+</span>
-          <span class="round-points" v-if="roundDirty">
+          <span v-if="newRoundMode" class="symbol">+</span>
+          <span class="round-points" v-if="newRoundMode">
             <input
               type="number"
               max="999"
               min="-999"
-              class="text-h2 input"
+              class="input"
               :value="roundScore"
               :step="step"
               @change="updateRoundScore($event.target.value)"
             />
           </span>
-        </p>
+        </div>
       </v-card-text>
-      <v-card-actions>
+      <v-card-actions v-if="newRoundMode">
         <v-btn
           class="modify-score"
           color="red"
@@ -54,13 +59,13 @@ import colors from "vuetify/lib/util/colors";
 import tinycolor from "tinycolor2";
 
 export default {
-  name: "PlayerSelect",
+  name: "PlayerScore",
   props: {
     name: String,
     gameScore: Number,
     roundScore: Number,
     step: Number,
-    roundDirty: Boolean,
+    newRoundMode: Boolean,
     highestScore: Number,
     lowestScore: Number,
     highestWins: Boolean,
@@ -112,6 +117,10 @@ export default {
 </script>
 
 <style scoped>
+.player-score {
+  width: 100%;
+}
+
 .score {
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -132,12 +141,26 @@ export default {
 }
 
 .points-field .game-points,
+.points-field .symbol,
+.points-field .round-points {
+  font-size: 50px;
+  line-height: 50px;
+}
+
+.points-field.large-score .game-points,
+.points-field.large-score .symbol,
+.points-field.large-score .round-points {
+  font-size: 30px;
+  line-height: 30px;
+}
+
+.points-field .game-points,
 .points-field .symbol {
   margin-top: 4px;
 }
 
 .round-points .input {
-  max-width: 8rem;
+  max-width: 100px;
   color: inherit;
 }
 </style>
