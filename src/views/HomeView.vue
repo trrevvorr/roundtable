@@ -11,20 +11,37 @@
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+      <v-list-item v-if="isGameInProgress" link to="/current">
+        <v-list-item-icon>
+          <v-icon>mdi-play</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Resume game in progress</v-list-item-title>
+          <v-list-item-subtitle>
+            {{ currentGameSettings.name }},
+            {{ currentGameSettings.players.length }} players
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "HomeView",
 
   data: () => ({
     drawer: false,
     group: null,
-    items: [{ title: "New Game", icon: "mdi-plus", path: "/new" }],
+    items: [{ title: "New game", icon: "mdi-plus", path: "/new" }],
     right: null,
   }),
+  computed: {
+    ...mapGetters(["isGameInProgress", "currentGameSettings"]),
+  },
 };
 </script>
 
