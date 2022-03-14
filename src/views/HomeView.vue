@@ -40,6 +40,7 @@ export default {
     items: [
       { title: "New game", icon: "mdi-plus", path: "/new" },
       { title: "Past games", icon: "mdi-history", path: "/past-games" },
+      { title: "Settings", icon: "mdi-cog", path: "/settings" },
     ],
     right: null,
   }),

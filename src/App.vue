@@ -53,6 +53,7 @@ const otherItems = [
   { title: "Home", icon: "mdi-home", path: "/" },
   { title: "New Game", icon: "mdi-plus", path: "/new" },
   { title: "Past games", icon: "mdi-history", path: "/past-games" },
+  { title: "Settings", icon: "mdi-cog", path: "/settings" },
 ];
 
 export default {

@@ -14,3 +14,8 @@ export function getAllData() {
 export function setAllData(data) {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
 }
+
+export function deleteAllData() {
+    console.warn("deleting all app data");
+    localStorage.setItem(LOCAL_STORAGE_KEY, "");
+}

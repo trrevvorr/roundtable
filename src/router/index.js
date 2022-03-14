@@ -28,6 +28,11 @@ const routes = [
     name: 'past-games',
     component: () => import(/* webpackChunkName: "past-games" */ '../views/PreviousGamesView.vue'),
   },
+  {
+    path: '/settings',
+    name: 'settings',
+    component: () => import(/* webpackChunkName: "settings" */ '../views/SettingsView.vue'),
+  },
 ];
 
 const router = new VueRouter({
