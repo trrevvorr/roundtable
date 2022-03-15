@@ -16,7 +16,7 @@
           :headers="[
             { text: 'Round', value: 'round', divider: true },
             ...players.map((player) => ({
-              text: player,
+              text: player.charAt(0).toUpperCase() + player.slice(1), // capitalize
               value: player,
             })),
           ]"

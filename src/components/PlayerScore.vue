@@ -8,7 +8,7 @@
   >
     <v-card class="player-score" :color="scoreColor">
       <v-card-text>
-        <div class="text-h4">
+        <div class="text-h4 text-capitalize">
           {{ name }}
         </div>
         <div

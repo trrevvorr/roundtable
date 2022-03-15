@@ -71,14 +71,15 @@
         "
       />
 
-      <v-btn
-        :disabled="!valid || !newGameSettings.players.length"
-        color="success"
-        class="mr-4"
-        @click="startGame"
-      >
-        Start Game
-      </v-btn>
+      <div class="actions-row">
+        <v-btn
+          :disabled="!valid || !newGameSettings.players.length"
+          color="success"
+          @click="startGame"
+        >
+          Start Game
+        </v-btn>
+      </div>
     </v-form>
   </div>
 </template>
@@ -130,5 +131,9 @@ export default {
 <style scoped>
 .new-game {
   margin: 2rem;
+}
+
+.actions-row {
+  margin-top: 2rem;
 }
 </style>
