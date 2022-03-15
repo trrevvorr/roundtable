@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     gameSettings: {
       players: getAllData().gameSettings.players || [],
+      favorites: getAllData().gameSettings.favorites || {},
       previous: getAllData().gameSettings.previous || [],
       current: getAllData().gameSettings.current || {}
     },
@@ -21,6 +22,9 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    newGameFavorites: state => {
+      return { ...state.gameSettings.favorites };
+    },
     newGameSettings: state => {
       return { ...state.gameSettings.current };
     },
@@ -44,6 +48,10 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    setNewGameFavorites(state, favorites) {
+      state.gameSettings.favorites = { ...favorites };
+      setAllData(state);
+    },
     setNewGameSettings(state, settings) {
       state.gameSettings.current = { ...settings };
       setAllData(state);

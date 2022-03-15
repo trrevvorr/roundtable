@@ -1,42 +1,8 @@
 <template>
-  <div class="player-select">
-    <!-- <h3>Selected Players</h3> -->
-    <!-- <div class="section">
-      <div class="selected players">
-        <v-badge
-          v-for="(player, index) in selectedPlayers"
-          :key="player"
-          :content="index + 1"
-          color="primary"
-          overlap
-          bordered
-          left
-        >
-          <v-btn
-            class="player-button"
-            color="primary"
-            @click="
-              $emit(
-                'change',
-                selectedPlayers.filter((sp) => sp !== player)
-              )
-            "
-          >
-            {{ player }}
-          </v-btn>
-        </v-badge>
-        <div
-          v-if="!selectedPlayers.length"
-          class="text-subtitle-2 text--secondary"
-        >
-          Select one or more players to continue
-        </div>
-      </div>
-    </div> -->
-
+  <div>
     <div class="section">
       <div class="available-header">
-        <h3>Players</h3>
+        <h2>Players</h2>
         <v-btn v-if="!editMode" color="primary" @click="editMode = true" icon>
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
@@ -51,6 +17,8 @@
             @click="removePlayer(player)"
             color="error"
             class="player-button edit-mode"
+            rounded
+            outlined
           >
             <v-icon>mdi-delete</v-icon>
             <span class="player">{{ player }}</span>
@@ -58,14 +26,16 @@
           <v-badge
             v-else-if="selectedPlayers.includes(player)"
             :content="selectedPlayers.indexOf(player) + 1"
-            color="primary"
+            color="purple"
             overlap
             bordered
             left
           >
             <v-btn
               class="player-button"
-              color="primary"
+              color="purple"
+              rounded
+              outlined
               @click="
                 $emit(
                   'change',
@@ -80,6 +50,8 @@
             v-else
             @click="$emit('change', [...selectedPlayers, player])"
             class="player-button"
+            rounded
+            outlined
           >
             <span class="player">{{ player }}</span>
           </v-btn>
@@ -175,6 +147,10 @@ export default {
   margin-top: 0.5rem;
 }
 
+h2 {
+  margin-bottom: 1rem;
+}
+
 .player-button {
   margin-right: 0.75rem;
   margin-bottom: 1rem;
@@ -200,5 +176,6 @@ export default {
 .available-header {
   display: grid;
   grid-template-columns: 1fr auto;
+  align-items: center;
 }
 </style>
