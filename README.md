@@ -27,3 +27,7 @@ npm run deploy
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Github Pages
+
+The site is hosted at https://trrevvorr.github.io/roundtable/#/
