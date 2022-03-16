@@ -1,41 +1,75 @@
 <template>
-  <v-card class="player-score">
-    <v-card-title> {{ gameName }} </v-card-title>
-    <v-card-subtitle>{{ gameDescription }}</v-card-subtitle>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn text @click="showRounds = !showRounds">
-        {{ showRounds ? "Hide" : "Show" }} Rounds
-      </v-btn>
-      <v-btn color="error" @click="$emit('endGame')"> End Game </v-btn>
-    </v-card-actions>
-    <v-expand-transition>
-      <div v-show="showRounds">
-        <br />
-        <v-data-table
-          :headers="[
-            { text: 'Round', value: 'round', divider: true },
-            ...players.map((player) => ({
-              text: player.charAt(0).toUpperCase() + player.slice(1), // capitalize
-              value: player,
-            })),
-          ]"
-          :items="
-            rounds.map((round, index) => ({ ...round, round: index + 1 }))
-          "
-          class="rounds-table"
-          disable-filtering
-          disable-sort
-          no-data-text="No rounds entered"
-        ></v-data-table>
-      </div>
-    </v-expand-transition>
-  </v-card>
+  <div>
+    <v-card class="player-score">
+      <v-card-title>
+        <ActionHeader class="favorite-games-header" :header="gameName">
+          <v-btn @click="editGameSettings = true" icon>
+            <v-icon>mdi-cog</v-icon>
+          </v-btn>
+        </ActionHeader>
+      </v-card-title>
+      <v-card-subtitle>{{ gameDescription }}</v-card-subtitle>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn text @click="showRounds = !showRounds">
+          {{ showRounds ? "Hide" : "Show" }} Rounds
+        </v-btn>
+        <v-btn color="error" @click="$emit('endGame')"> End Game </v-btn>
+      </v-card-actions>
+      <v-expand-transition>
+        <div v-show="showRounds">
+          <br />
+          <v-data-table
+            :headers="[
+              { text: 'Round', value: 'round', divider: true },
+              ...players.map((player) => ({
+                text: player.charAt(0).toUpperCase() + player.slice(1), // capitalize
+                value: player,
+              })),
+            ]"
+            :items="
+              rounds.map((round, index) => ({ ...round, round: index + 1 }))
+            "
+            class="rounds-table"
+            disable-filtering
+            disable-sort
+            no-data-text="No rounds entered"
+          ></v-data-table>
+        </div>
+      </v-expand-transition>
+    </v-card>
+    <v-dialog v-model="editGameSettings" max-width="500">
+      <v-card>
+        <v-card-title> Game Settings </v-card-title>
+
+        <v-card-text>
+          <GameSettings
+            :gameSettings="editedCurrentGameSettings"
+            :showHeader="false"
+            @change="(val) => (editedCurrentGameSettings = val)"
+            @valid="(newValid) => (valid = newValid)"
+          />
+        </v-card-text>
+
+        <v-card-actions>
+          <v-btn @click="editGameSettings = false">Cancel</v-btn>
+          <v-btn color="primary" @click="saveSettings" :disabled="!valid"
+            >Save</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>
 
 <script>
+import { mapMutations, mapGetters } from "vuex";
+import ActionHeader from "@/components/ActionHeader";
+import GameSettings from "@/components/GameSettings";
+
 export default {
   name: "CurrentGameMenu",
+  components: { ActionHeader, GameSettings },
   props: {
     gameName: String,
     highestWins: Boolean,
@@ -45,8 +79,20 @@ export default {
   },
   data: () => ({
     showRounds: false,
+    editGameSettings: false,
+    valid: true,
+    editedCurrentGameSettings: {},
   }),
+  created() {
+    this.editedCurrentGameSettings = this.currentGameSettings;
+  },
+  watch: {
+    currentGameSettings() {
+      this.editedCurrentGameSettings = this.currentGameSettings;
+    },
+  },
   computed: {
+    ...mapGetters(["currentGameSettings"]),
     gameDescription() {
       if (this.maxPoints) {
         return `First to ${this.maxPoints} ${
@@ -55,6 +101,13 @@ export default {
       } else {
         return `${this.highestWins ? "Highest" : "Lowest"} score wins`;
       }
+    },
+  },
+  methods: {
+    ...mapMutations(["setCurrentGameSettings"]),
+    saveSettings() {
+      this.setCurrentGameSettings({ ...this.editedCurrentGameSettings });
+      this.editGameSettings = false;
     },
   },
 };

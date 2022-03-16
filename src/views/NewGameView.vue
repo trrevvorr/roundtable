@@ -8,7 +8,7 @@
       <div class="settings">
         <GameSettings
           :gameSettings="newGameSettings"
-          :allowSaveFavorite="true"
+          :showHeader="true"
           @change="(val) => setNewGameSettings(val)"
           @saveFavorite="saveFavorite"
           @valid="(newValid) => (valid = newValid)"
@@ -119,6 +119,7 @@ h2 {
 }
 
 .game-favorites-and-settings {
+  margin-top: 1rem;
   display: grid;
   grid-template-areas: "settings favorites";
   grid-template-columns: 1fr 1fr;

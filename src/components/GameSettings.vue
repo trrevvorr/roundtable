@@ -1,8 +1,11 @@
 <template>
   <div class="game-settings">
-    <ActionHeader class="custom-game-header" header="Game Settings">
+    <ActionHeader
+      v-if="showHeader"
+      class="custom-game-header"
+      header="Game Settings"
+    >
       <v-btn
-        v-if="allowSaveFavorite"
         color="primary"
         :disabled="!valid"
         @click="$emit('saveFavorite', gameSettings)"
@@ -82,7 +85,7 @@ export default {
   components: { ActionHeader },
   props: {
     gameSettings: Object,
-    allowSaveFavorite: Boolean,
+    showHeader: Boolean,
   },
   data: () => ({
     valid: true,

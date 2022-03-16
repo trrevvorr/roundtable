@@ -1,6 +1,6 @@
 <template>
   <div class="action-header">
-    <div class="text-h5">{{ header }}</div>
+    <h2>{{ header }}</h2>
     <span class="actions">
       <slot></slot>
     </span>
@@ -18,7 +18,7 @@ export default {
 
 <style scoped>
 .action-header {
-  margin: 1rem 0;
+  margin-bottom: 1rem;
   width: 100%;
   display: grid;
   grid-template-columns: 1fr auto;
