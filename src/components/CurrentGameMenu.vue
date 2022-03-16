@@ -10,10 +10,10 @@
       </v-card-title>
       <v-card-subtitle>{{ gameDescription }}</v-card-subtitle>
       <v-card-actions>
-        <v-spacer></v-spacer>
         <v-btn text @click="showRounds = !showRounds">
           {{ showRounds ? "Hide" : "Show" }} Rounds
         </v-btn>
+        <v-spacer></v-spacer>
         <v-btn color="error" @click="$emit('endGame')"> End Game </v-btn>
       </v-card-actions>
       <v-expand-transition>
