@@ -1,15 +1,14 @@
 <template>
   <div>
     <div class="section">
-      <div class="available-header">
-        <h2>Players</h2>
-        <v-btn v-if="!editMode" color="primary" @click="editMode = true" icon>
+      <ActionHeader class="available-header" header="Players">
+        <v-btn v-if="!editMode" @click="editMode = true" icon>
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
         <v-btn v-else color="success" @click="editMode = false" icon>
           <v-icon>mdi-check</v-icon>
         </v-btn>
-      </div>
+      </ActionHeader>
       <div class="available players">
         <span v-for="player in players" :key="player">
           <v-btn
@@ -93,9 +92,11 @@
 
 <script>
 import { mapMutations, mapGetters } from "vuex";
+import ActionHeader from "@/components/ActionHeader";
 
 export default {
   name: "PlayerSelect",
+  components: { ActionHeader },
   props: {
     selectedPlayers: [],
   },

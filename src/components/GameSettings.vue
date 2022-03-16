@@ -1,7 +1,6 @@
 <template>
   <div class="game-settings">
-    <div class="custom-game-header">
-      <h2>Game Settings</h2>
+    <ActionHeader class="custom-game-header" header="Game Settings">
       <v-btn
         v-if="allowSaveFavorite"
         color="primary"
@@ -9,9 +8,9 @@
         @click="$emit('saveFavorite', gameSettings)"
         icon
       >
-        <v-icon left>mdi-star</v-icon>
+        <v-icon color="yellow darken-3">mdi-star-plus</v-icon>
       </v-btn>
-    </div>
+    </ActionHeader>
     <v-form ref="form" v-model="valid" lazy-validation>
       <div class="game-settings-fields">
         <v-text-field
@@ -76,8 +75,11 @@
 </template>
 
 <script>
+import ActionHeader from "@/components/ActionHeader";
+
 export default {
   name: "GameSettings",
+  components: { ActionHeader },
   props: {
     gameSettings: Object,
     allowSaveFavorite: Boolean,

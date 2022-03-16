@@ -122,7 +122,7 @@ h2 {
   display: grid;
   grid-template-areas: "settings favorites";
   grid-template-columns: 1fr 1fr;
-  grid-column-gap: 3rem;
+  grid-column-gap: 4rem;
 }
 
 .game-favorites-and-settings .favorites {
