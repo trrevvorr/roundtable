@@ -35,17 +35,6 @@
         </v-btn>
       </span>
     </div>
-    <div class="custom-game-header">
-      <h2>Game Settings</h2>
-      <v-btn
-        color="primary"
-        :disabled="!currentSettingsValid"
-        @click="saveFavorite"
-        icon
-      >
-        <v-icon left>mdi-star</v-icon>
-      </v-btn>
-    </div>
   </div>
 </template>
 
@@ -65,15 +54,6 @@ export default {
   },
   methods: {
     ...mapMutations(["setNewGameSettings", "setNewGameFavorites"]),
-    saveFavorite() {
-      const favorite = { ...this.newGameSettings };
-      delete favorite.players;
-
-      this.setNewGameFavorites({
-        ...this.newGameFavorites,
-        [favorite.name]: favorite,
-      });
-    },
     applyFavorite(fav) {
       this.setNewGameSettings({
         ...this.newGameSettings,
@@ -100,7 +80,6 @@ h2 {
   margin-bottom: 1rem;
 }
 
-.custom-game-header,
 .favorite-games-header {
   display: grid;
   grid-template-columns: 1fr auto;
