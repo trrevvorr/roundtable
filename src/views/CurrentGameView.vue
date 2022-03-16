@@ -28,7 +28,6 @@
       <v-btn
         v-if="newRoundMode"
         key="save-round"
-        color="primary"
         large
         bottom
         right
@@ -36,12 +35,12 @@
         rounded
         @click="saveRound"
       >
-        Save Round
+        <v-icon left>mdi-floppy</v-icon>
+        Round
       </v-btn>
       <v-btn
         v-else
         key="new-round"
-        color="primary"
         rounded
         large
         bottom
@@ -49,7 +48,8 @@
         fixed
         @click="newRoundMode = true"
       >
-        Add Round
+        <v-icon left>mdi-plus</v-icon>
+        Round
       </v-btn>
     </div>
     <GameOverDialog

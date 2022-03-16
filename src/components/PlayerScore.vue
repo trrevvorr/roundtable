@@ -1,57 +1,50 @@
 <template>
-  <v-badge
-    right
-    overlap
-    bordered
-    color="primary"
-    :value="newRoundMode && !roundScore"
-  >
-    <v-card class="player-score" :color="scoreColor">
-      <v-card-text>
-        <div class="text-h4 text-capitalize">
-          {{ name }}
-        </div>
-        <div
-          :class="{
-            'points-field': true,
-            'large-score': highestScore > 99 || lowestScore < -99,
-          }"
-        >
-          <span class="game-points" :class="{ subtle: newRoundMode }">{{
-            gameScore
-          }}</span>
-          <span v-if="newRoundMode" class="symbol">+</span>
-          <span class="round-points" v-if="newRoundMode">
-            <input
-              type="number"
-              max="999"
-              min="-999"
-              class="input"
-              :value="roundScore"
-              :step="step"
-              @change="updateRoundScore($event.target.value)"
-            />
-          </span>
-        </div>
-      </v-card-text>
-      <v-card-actions v-if="newRoundMode">
-        <v-btn
-          class="modify-score"
-          color="red"
-          @click="updateRoundScore((roundScore || 0) - step)"
-        >
-          -{{ step }}
-        </v-btn>
-        <v-btn
-          class="modify-score"
-          color="green"
-          @click="updateRoundScore((roundScore || 0) + step)"
-        >
-          +{{ step }}
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-badge>
+  <v-card class="player-score" :color="scoreColor">
+    <v-card-text>
+      <div class="text-h4 text-capitalize">
+        {{ name }}
+      </div>
+      <div
+        :class="{
+          'points-field': true,
+          'large-score': highestScore > 99 || lowestScore < -99,
+        }"
+      >
+        <span class="game-points" :class="{ subtle: newRoundMode }">{{
+          gameScore
+        }}</span>
+        <span v-if="newRoundMode" class="symbol">+</span>
+        <span class="round-points" v-if="newRoundMode">
+          <input
+            type="number"
+            max="999"
+            min="-999"
+            class="input"
+            :value="roundScore"
+            :step="step"
+            @change="updateRoundScore($event.target.value)"
+          />
+        </span>
+      </div>
+    </v-card-text>
+    <v-card-actions v-if="newRoundMode">
+      <v-btn
+        class="modify-score"
+        @click="updateRoundScore((roundScore || 0) - step)"
+        rounded
+      >
+        <v-icon>mdi-minus</v-icon>
+      </v-btn>
+      <v-spacer />
+      <v-btn
+        class="modify-score"
+        @click="updateRoundScore((roundScore || 0) + step)"
+        rounded
+      >
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
@@ -87,7 +80,7 @@ export default {
     },
     scoreColor() {
       const { green, red } = this.scoreColorRatio;
-      const darkColor = colors.grey.darken4;
+      const darkColor = colors.yellow.darken4;
 
       if (green > 0) {
         return (
