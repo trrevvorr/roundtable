@@ -25,14 +25,14 @@
           <v-badge
             v-else-if="selectedPlayers.includes(player)"
             :content="selectedPlayers.indexOf(player) + 1"
-            color="purple"
+            color="secondary"
             overlap
             bordered
             left
           >
             <v-btn
               class="player-button"
-              color="purple"
+              color="secondary"
               rounded
               outlined
               @click="

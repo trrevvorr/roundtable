@@ -25,11 +25,28 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
+    <div class="container">
+      <div
+        v-for="(color, index) in colors"
+        :key="color.slice(1)"
+        :class="'level l' + index"
+        :style="{ backgroundColor: color }"
+      ></div>
+      <v-btn fab class="button"><v-icon x-large>mdi-plus</v-icon></v-btn>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+
+let colormap = require("colormap");
+
+const colors = colormap({
+  colormap: "viridis",
+  nshades: 10,
+  format: "hex",
+});
 
 export default {
   name: "HomeView",
@@ -43,6 +60,7 @@ export default {
       { title: "Settings", icon: "mdi-cog", path: "/settings" },
     ],
     right: null,
+    colors: colors,
   }),
   computed: {
     ...mapGetters([
@@ -61,5 +79,27 @@ export default {
 
 h1 {
   margin-bottom: 2rem;
+}
+
+.container {
+  height: 200px;
+  width: 200px;
+  position: relative;
+  transform: rotate(-45deg);
+}
+.level {
+  height: 15px;
+  width: 200px;
+}
+
+.l0 {
+  /* height: 40px; */
+}
+
+.button {
+  position: absolute;
+  top: 47px;
+  right: 62px;
+  transform: rotate(45deg);
 }
 </style>

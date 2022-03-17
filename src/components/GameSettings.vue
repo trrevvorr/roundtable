@@ -11,7 +11,7 @@
         @click="$emit('saveFavorite', gameSettings)"
         icon
       >
-        <v-icon color="yellow darken-3">mdi-star-plus</v-icon>
+        <v-icon color="accent">mdi-star-plus</v-icon>
       </v-btn>
     </ActionHeader>
     <v-form ref="form" v-model="valid" lazy-validation>

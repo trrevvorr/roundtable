@@ -48,8 +48,13 @@
 </template>
 
 <script>
-import colors from "vuetify/lib/util/colors";
-import tinycolor from "tinycolor2";
+let colormap = require("colormap");
+
+const colors = colormap({
+  colormap: "viridis",
+  nshades: 130, // greater than 100 to cut out undesirable yellow part of spectrum
+  format: "hex",
+});
 
 export default {
   name: "PlayerScore",
@@ -63,34 +68,13 @@ export default {
     lowestScore: Number,
     highestWins: Boolean,
   },
-  data: () => ({}),
   computed: {
-    scoreColorRatio() {
+    scoreColor() {
       const range = this.highestScore - this.lowestScore;
       const normScore = this.gameScore - this.lowestScore;
       const percent = normScore / range;
-      const upperPercentile = Math.max(percent - 0.5, 0.0) * 2 * 100;
-      const lowerPercentile = Math.max(1 - percent - 0.5, 0.0) * 2 * 100;
 
-      if (this.highestWins) {
-        return { green: upperPercentile, red: lowerPercentile };
-      } else {
-        return { green: lowerPercentile, red: upperPercentile };
-      }
-    },
-    scoreColor() {
-      const { green, red } = this.scoreColorRatio;
-      const darkColor = colors.yellow.darken4;
-
-      if (green > 0) {
-        return (
-          "#" + tinycolor.mix(darkColor, colors.green.darken4, green).toHex()
-        );
-      } else if (red > 0) {
-        return "#" + tinycolor.mix(darkColor, colors.red.darken4, red).toHex();
-      } else {
-        return darkColor;
-      }
+      return colors[Math.round(percent * 100)];
     },
   },
   methods: {

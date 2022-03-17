@@ -26,7 +26,7 @@
         class="fav-button"
         rounded
         outlined
-        color="yellow darken-3"
+        color="accent"
       >
         <v-icon left>mdi-star</v-icon>
         {{ fav.name }}
