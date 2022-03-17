@@ -16,6 +16,7 @@
         <span v-if="newRoundMode" class="symbol">+</span>
         <span class="round-points" v-if="newRoundMode">
           <input
+            onClick="this.select();"
             type="number"
             max="999"
             min="-999"
@@ -71,6 +72,10 @@ export default {
   computed: {
     scoreColor() {
       const range = this.highestScore - this.lowestScore;
+      if (range === 0) {
+        return colors[50]; // if range is 0 then everyone has the same score
+      }
+
       const normScore = this.gameScore - this.lowestScore;
       let percent = normScore / range;
       if (!this.highestWins) {
