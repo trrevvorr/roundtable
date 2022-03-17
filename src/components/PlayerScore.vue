@@ -72,7 +72,10 @@ export default {
     scoreColor() {
       const range = this.highestScore - this.lowestScore;
       const normScore = this.gameScore - this.lowestScore;
-      const percent = normScore / range;
+      let percent = normScore / range;
+      if (!this.highestWins) {
+        percent = 1 - percent;
+      }
 
       return colors[Math.round(percent * 100)];
     },
