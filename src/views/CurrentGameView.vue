@@ -8,6 +8,7 @@
       :rounds="currentGameRounds"
       :players="currentGameSettings.players"
       @endGame="endGameConfirmation = true"
+      @editRound="editRound"
     />
     <div class="players">
       <PlayerScore
@@ -15,10 +16,10 @@
         :key="player"
         :name="player"
         :gameScore="getScoreForPlayer(player)"
-        :roundScore="newRound[player]"
+        :roundScore="editingRound[player]"
         :step="currentGameSettings.stepSize"
         @change="(score) => setRoundScore(player, score)"
-        :newRoundMode="newRoundMode"
+        :newRoundMode="editingRoundMode"
         :highestScore="highestScore"
         :lowestScore="lowestScore"
         :highestWins="currentGameSettings.highestWins"
@@ -26,7 +27,7 @@
       />
     </div>
     <div>
-      <div v-if="newRoundMode">
+      <div v-if="editingRoundMode">
         <v-btn
           key="save-round"
           large
@@ -37,7 +38,7 @@
           @click="saveRound"
         >
           <v-icon left>mdi-floppy</v-icon>
-          Save
+          Save Round {{ editingRoundIndex + 1 }}
         </v-btn>
         <v-btn
           key="cancel-round"
@@ -60,7 +61,7 @@
         bottom
         right
         fixed
-        @click="newRoundMode = true"
+        @click="newRound"
       >
         <v-icon left>mdi-plus</v-icon>
         Round
@@ -100,11 +101,12 @@ export default {
     ConfirmationDialog,
   },
   data: () => ({
-    newRound: {},
-    newRoundMode: false,
+    editingRound: {},
+    editingRoundMode: false,
     gameOverDialog: false,
     endGameConfirmation: false,
     gameOver: false,
+    editingRoundIndex: -1,
   }),
   created() {
     this.resetRound();
@@ -153,8 +155,9 @@ export default {
       this.currentGameSettings.players.forEach((player) => {
         round[player] = 0;
       });
-      this.newRound = Object.assign({}, round);
-      this.newRoundMode = false;
+      this.editingRound = Object.assign({}, round);
+      this.editingRoundIndex = -1;
+      this.editingRoundMode = false;
     },
     getScoreForPlayer(player) {
       let total = 0;
@@ -164,16 +167,31 @@ export default {
       return total;
     },
     setRoundScore(player, newRoundScore) {
-      this.newRound[player] = newRoundScore;
+      this.editingRound[player] = newRoundScore;
     },
     saveRound() {
-      this.setCurrentGameRounds([...this.currentGameRounds, this.newRound]);
+      const modifiedRounds = [...this.currentGameRounds];
+      modifiedRounds.splice(this.editingRoundIndex, 1, this.editingRound);
+      this.setCurrentGameRounds(modifiedRounds);
       this.resetRound();
     },
     endGame() {
       this.gameOver = true; // prevents errors during transition to game over
       this.endCurrentGame();
       router.push("/new");
+    },
+    newRound() {
+      this.editingRoundIndex = this.currentGameRounds.length;
+      this.editingRoundMode = true;
+    },
+    editRound(rowIndex) {
+      this.editingRoundIndex = rowIndex;
+      const round = {};
+      this.currentGameSettings.players.forEach((player) => {
+        round[player] = parseInt(this.currentGameRounds[rowIndex][player]);
+      });
+      this.editingRound = Object.assign({}, round);
+      this.editingRoundMode = true;
     },
   },
 };

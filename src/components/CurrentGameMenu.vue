@@ -33,7 +33,10 @@
             class="rounds-table"
             disable-filtering
             disable-sort
+            disable-pagination
+            hide-default-footer
             no-data-text="No rounds entered"
+            @click:row="(row, metadata) => $emit('editRound', metadata.index)"
           ></v-data-table>
         </div>
       </v-expand-transition>
