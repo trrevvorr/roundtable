@@ -147,19 +147,20 @@ export default {
   },
   methods: {
     setColors() {
-      this.colors.splice(
-        0,
-        this.colors.length,
-        ...colormap({
-          colormap: this.selectedColor,
-          nshades: 20,
-          format: "hex",
-        })
-      );
-
+      const fullColors = colormap({
+        colormap: this.selectedColor,
+        nshades: colorMaps[this.selectedColor].shadeRange[1],
+        format: "hex",
+      });
       if (colorMaps[this.selectedColor].reversed) {
-        this.colors.reverse();
+        fullColors.reverse();
       }
+      const sampleColors = [];
+      for (let i = 0; i < 100; i += 10) {
+        sampleColors.push(fullColors[i]);
+      }
+
+      this.colors.splice(0, this.colors.length, ...sampleColors);
     },
   },
 };
@@ -179,11 +180,8 @@ h2 {
 .color-map {
   display: grid;
   grid-template-columns: 1fr auto;
+  grid-column-gap: 1rem;
   align-items: center;
-}
-
-.color-example {
-  margin: 0 1rem;
 }
 
 .color-swatch {

@@ -13,6 +13,48 @@
         ],
         "reversed": true
     },
+    "greys": {
+        "shadeRange": [
+            0,
+            101
+        ],
+        "reversed": false
+    },
+    "density": {
+        "shadeRange": [
+            0,
+            101
+        ],
+        "reversed": false
+    },
+    "par": {
+        "shadeRange": [
+            0,
+            101
+        ],
+        "reversed": false
+    },
+    "salinity": {
+        "shadeRange": [
+            0,
+            140
+        ],
+        "reversed": false
+    },
+    "freesurface-red": {
+        "shadeRange": [
+            0,
+            101
+        ],
+        "reversed": false
+    },
+    "inferno": {
+        "shadeRange": [
+            0,
+            101
+        ],
+        "reversed": false
+    },
     "portland": {
         "shadeRange": [
             0,
