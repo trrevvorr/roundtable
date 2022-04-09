@@ -50,7 +50,7 @@
             :gameSettings="editedCurrentGameSettings"
             :appSettings="editedAppSettings"
             :showHeader="false"
-            :displayColorMapPicker="true"
+            :displayAppSettings="true"
             @change="(val) => (editedCurrentGameSettings = val)"
             @changeAppSettings="(val) => (editedAppSettings = val)"
             @valid="(newValid) => (valid = newValid)"

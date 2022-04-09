@@ -73,27 +73,29 @@
           label="Highest Score Wins"
         ></v-checkbox>
 
-        <div v-if="displayColorMapPicker" class="color-map">
-          <v-select
-            v-model="selectedColor"
-            :items="Object.keys(colorMaps)"
-            label="Color Map"
-          ></v-select>
-          <div class="color-example">
-            <span
-              v-for="color in colors"
-              :key="color"
-              :style="{ backgroundColor: color }"
-              class="color-swatch"
-            ></span>
+        <div v-if="displayAppSettings">
+          <div class="color-map">
+            <v-select
+              v-model="selectedColor"
+              :items="Object.keys(colorMaps)"
+              label="Color Map"
+            ></v-select>
+            <div class="color-example">
+              <span
+                v-for="color in colors"
+                :key="color"
+                :style="{ backgroundColor: color }"
+                class="color-swatch"
+              ></span>
+            </div>
           </div>
-        </div>
 
-        <v-select
-          v-model="sortPlayersBy"
-          :items="Object.values(playerSortOptions)"
-          label="Sort Players By"
-        ></v-select>
+          <v-select
+            v-model="sortPlayersBy"
+            :items="Object.values(playerSortOptions)"
+            label="Sort Players By"
+          ></v-select>
+        </div>
       </div>
     </v-form>
   </div>
@@ -112,7 +114,7 @@ export default {
     gameSettings: Object,
     showHeader: Boolean,
     appSettings: Object,
-    displayColorMapPicker: Boolean,
+    displayAppSettings: Boolean,
   },
   data: () => ({
     valid: true,
