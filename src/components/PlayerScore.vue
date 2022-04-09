@@ -50,12 +50,7 @@
 
 <script>
 let colormap = require("colormap");
-
-const colors = colormap({
-  colormap: "viridis",
-  nshades: 130, // greater than 100 to cut out undesirable yellow part of spectrum
-  format: "hex",
-});
+const colorMaps = require("@/constants/colorMaps.json");
 
 export default {
   name: "PlayerScore",
@@ -68,12 +63,16 @@ export default {
     highestScore: Number,
     lowestScore: Number,
     highestWins: Boolean,
+    colormap: String,
   },
+  data: () => ({
+    colors: [],
+  }),
   computed: {
     scoreColor() {
       const range = this.highestScore - this.lowestScore;
       if (range === 0) {
-        return colors[50]; // if range is 0 then everyone has the same score
+        return this.colors[50]; // if range is 0 then everyone has the same score
       }
 
       const normScore = this.gameScore - this.lowestScore;
@@ -82,7 +81,15 @@ export default {
         percent = 1 - percent;
       }
 
-      return colors[Math.round(percent * 100)];
+      return this.colors[Math.round(percent * 100)];
+    },
+  },
+  created() {
+    this.setColors();
+  },
+  watch: {
+    colormap() {
+      this.setColors();
     },
   },
   methods: {
@@ -96,6 +103,21 @@ export default {
       }
 
       this.$emit("change", validatedScore);
+    },
+    setColors() {
+      this.colors.splice(
+        0,
+        this.colors.length,
+        ...colormap({
+          colormap: this.colormap,
+          nshades: colorMaps[this.colormap].shadeRange[1],
+          format: "hex",
+        })
+      );
+
+      if (colorMaps[this.colormap].reversed) {
+        this.colors.reverse();
+      }
     },
   },
 };

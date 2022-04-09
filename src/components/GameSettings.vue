@@ -72,6 +72,22 @@
           "
           label="Highest Score Wins"
         ></v-checkbox>
+
+        <div v-if="displayColorMapPicker" class="color-map">
+          <v-select
+            v-model="selectedColor"
+            :items="Object.keys(colorMaps)"
+            label="Color Map"
+          ></v-select>
+          <div class="color-example">
+            <span
+              v-for="color in colors"
+              :key="color"
+              :style="{ backgroundColor: color }"
+              class="color-swatch"
+            ></span>
+          </div>
+        </div>
       </div>
     </v-form>
   </div>
@@ -79,6 +95,8 @@
 
 <script>
 import ActionHeader from "@/components/ActionHeader";
+let colormap = require("colormap");
+const colorMaps = require("@/constants/colorMaps.json");
 
 export default {
   name: "GameSettings",
@@ -86,6 +104,8 @@ export default {
   props: {
     gameSettings: Object,
     showHeader: Boolean,
+    appSettings: Object,
+    displayColorMapPicker: Boolean,
   },
   data: () => ({
     valid: true,
@@ -100,10 +120,46 @@ export default {
       (v) => !!v || "Required",
       (v) => parseInt(v) > 0 || "Must be positive",
     ],
+    colors: [],
+    selectedColor: null,
+    colorMaps: colorMaps,
   }),
+  created() {
+    if (this.appSettings) {
+      this.selectedColor = this.appSettings.colorMap;
+      this.setColors();
+    }
+  },
   watch: {
     valid() {
       this.$emit("valid", this.valid);
+    },
+    appSettings() {
+      this.selectedColor = this.appSettings.colorMap;
+    },
+    selectedColor() {
+      this.setColors();
+      this.$emit("changeAppSettings", {
+        ...this.appSettings,
+        colorMap: this.selectedColor,
+      });
+    },
+  },
+  methods: {
+    setColors() {
+      this.colors.splice(
+        0,
+        this.colors.length,
+        ...colormap({
+          colormap: this.selectedColor,
+          nshades: 20,
+          format: "hex",
+        })
+      );
+
+      if (colorMaps[this.selectedColor].reversed) {
+        this.colors.reverse();
+      }
     },
   },
 };
@@ -118,5 +174,21 @@ h2 {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
+}
+
+.color-map {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.color-example {
+  margin: 0 1rem;
+}
+
+.color-swatch {
+  height: 2rem;
+  width: 0.5rem;
+  display: inline-block;
 }
 </style>

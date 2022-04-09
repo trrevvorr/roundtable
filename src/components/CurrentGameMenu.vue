@@ -45,8 +45,11 @@
         <v-card-text>
           <GameSettings
             :gameSettings="editedCurrentGameSettings"
+            :appSettings="editedAppSettings"
             :showHeader="false"
+            :displayColorMapPicker="true"
             @change="(val) => (editedCurrentGameSettings = val)"
+            @changeAppSettings="(val) => (editedAppSettings = val)"
             @valid="(newValid) => (valid = newValid)"
           />
         </v-card-text>
@@ -82,17 +85,22 @@ export default {
     editGameSettings: false,
     valid: true,
     editedCurrentGameSettings: {},
+    editedAppSettings: {},
   }),
   created() {
     this.editedCurrentGameSettings = this.currentGameSettings;
+    this.editedAppSettings = this.appSettings;
   },
   watch: {
     currentGameSettings() {
       this.editedCurrentGameSettings = this.currentGameSettings;
     },
+    appSettings() {
+      this.editedAppSettings = this.appSettings;
+    },
   },
   computed: {
-    ...mapGetters(["currentGameSettings"]),
+    ...mapGetters(["currentGameSettings", "appSettings"]),
     gameDescription() {
       if (this.maxPoints) {
         return `First to ${this.maxPoints} ${
@@ -104,9 +112,10 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(["setCurrentGameSettings"]),
+    ...mapMutations(["setCurrentGameSettings", "setAppSettings"]),
     saveSettings() {
       this.setCurrentGameSettings({ ...this.editedCurrentGameSettings });
+      this.setAppSettings({ ...this.editedAppSettings });
       this.editGameSettings = false;
     },
   },

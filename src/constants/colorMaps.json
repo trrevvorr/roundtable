@@ -1,0 +1,23 @@
+{
+    "viridis": {
+        "shadeRange": [
+            0,
+            130
+        ],
+        "reversed": false
+    },
+    "bluered": {
+        "shadeRange": [
+            0,
+            101
+        ],
+        "reversed": true
+    },
+    "portland": {
+        "shadeRange": [
+            0,
+            101
+        ],
+        "reversed": true
+    }
+}

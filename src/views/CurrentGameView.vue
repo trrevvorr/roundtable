@@ -22,6 +22,7 @@
         :highestScore="highestScore"
         :lowestScore="lowestScore"
         :highestWins="currentGameSettings.highestWins"
+        :colormap="appSettings.colorMap"
       />
     </div>
     <div>
@@ -96,7 +97,7 @@ export default {
     this.resetRound();
   },
   computed: {
-    ...mapGetters(["currentGameRounds", "currentGameSettings"]),
+    ...mapGetters(["currentGameRounds", "currentGameSettings", "appSettings"]),
     highestScore() {
       return (
         !this.gameOver &&

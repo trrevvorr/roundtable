@@ -19,6 +19,9 @@ export default new Vuex.Store({
         data: getAllData().gameState.current.data || []
       },
       previous: getAllData().gameState.previous || []
+    },
+    appSettings: {
+      colorMap: (getAllData().appSettings && getAllData().appSettings.colorMap) || "viridis",
     }
   },
   getters: {
@@ -45,6 +48,9 @@ export default new Vuex.Store({
     },
     previousGameStates: state => {
       return [...state.gameState.previous];
+    },
+    appSettings: state => {
+      return { ...state.appSettings };
     },
   },
   mutations: {
@@ -138,7 +144,11 @@ export default new Vuex.Store({
       } else {
         console.warn("Could not resume game because game was unset");
       }
-    }
+    },
+    setAppSettings(state, settings) {
+      state.appSettings = { ...settings };
+      setAllData(state);
+    },
   },
   actions: {
   },
