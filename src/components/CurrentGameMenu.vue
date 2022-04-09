@@ -10,15 +10,33 @@
       </v-card-title>
       <v-card-subtitle>{{ gameDescription }}</v-card-subtitle>
       <v-card-actions>
-        <v-btn text @click="showRounds = !showRounds">
+        <v-btn
+          text
+          @click="
+            () => {
+              showGraph = false;
+              showRounds = !showRounds;
+            }
+          "
+        >
           {{ showRounds ? "Hide" : "Show" }} Rounds
+        </v-btn>
+        <v-btn
+          text
+          @click="
+            () => {
+              showRounds = false;
+              showGraph = !showGraph;
+            }
+          "
+        >
+          {{ showGraph ? "Hide" : "Show" }} Graph
         </v-btn>
         <v-spacer></v-spacer>
         <v-btn color="error" @click="$emit('endGame')"> End Game </v-btn>
       </v-card-actions>
       <v-expand-transition>
         <div v-show="showRounds">
-          <br />
           <v-data-table
             :headers="[
               { text: 'Round', value: 'round', divider: true },
@@ -38,6 +56,15 @@
             no-data-text="No rounds entered"
             @click:row="(row, metadata) => $emit('editRound', metadata.index)"
           ></v-data-table>
+        </div>
+      </v-expand-transition>
+      <v-expand-transition>
+        <div v-if="showGraph">
+          <br />
+          <LineChart
+            :players="currentGameSettings.players"
+            :rounds="currentGameRounds"
+          />
         </div>
       </v-expand-transition>
     </v-card>
@@ -72,10 +99,11 @@
 import { mapMutations, mapGetters } from "vuex";
 import ActionHeader from "@/components/ActionHeader";
 import GameSettings from "@/components/GameSettings";
+import LineChart from "@/components/LineChart";
 
 export default {
   name: "CurrentGameMenu",
-  components: { ActionHeader, GameSettings },
+  components: { ActionHeader, GameSettings, LineChart },
   props: {
     gameName: String,
     highestWins: Boolean,
@@ -85,6 +113,7 @@ export default {
   },
   data: () => ({
     showRounds: false,
+    showGraph: false,
     editGameSettings: false,
     valid: true,
     editedCurrentGameSettings: {},
@@ -103,7 +132,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["currentGameSettings", "appSettings"]),
+    ...mapGetters(["currentGameSettings", "appSettings", "currentGameRounds"]),
     gameDescription() {
       if (this.maxPoints) {
         return `First to ${this.maxPoints} ${
