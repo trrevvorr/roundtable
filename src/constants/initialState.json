@@ -19,6 +19,7 @@
         "previous": []
     },
     "appSettings": {
-        "colorMap": "viridis"
+        "colorMap": "viridis",
+        "sortPlayersBy": "turn"
     }
 }

@@ -22,6 +22,7 @@ export default new Vuex.Store({
     },
     appSettings: {
       colorMap: (getAllData().appSettings && getAllData().appSettings.colorMap) || "viridis",
+      sortPlayersBy: (getAllData().appSettings && getAllData().appSettings.sortPlayersBy) || "turn",
     }
   },
   getters: {

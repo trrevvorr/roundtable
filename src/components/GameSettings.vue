@@ -88,6 +88,12 @@
             ></span>
           </div>
         </div>
+
+        <v-select
+          v-model="sortPlayersBy"
+          :items="Object.values(playerSortOptions)"
+          label="Sort Players By"
+        ></v-select>
       </div>
     </v-form>
   </div>
@@ -97,6 +103,7 @@
 import ActionHeader from "@/components/ActionHeader";
 let colormap = require("colormap");
 const colorMaps = require("@/constants/colorMaps.json");
+const playerSortOptions = require("@/constants/playerSortOptions.json");
 
 export default {
   name: "GameSettings",
@@ -123,11 +130,13 @@ export default {
     colors: [],
     selectedColor: null,
     colorMaps: colorMaps,
+    playerSortOptions: playerSortOptions,
+    sortPlayersBy: null,
   }),
   created() {
     if (this.appSettings) {
+      this.sortPlayersBy = this.appSettings.sortPlayersBy;
       this.selectedColor = this.appSettings.colorMap;
-      this.setColors();
     }
   },
   watch: {
@@ -135,6 +144,7 @@ export default {
       this.$emit("valid", this.valid);
     },
     appSettings() {
+      this.sortPlayersBy = this.appSettings.sortPlayersBy;
       this.selectedColor = this.appSettings.colorMap;
     },
     selectedColor() {
@@ -142,6 +152,12 @@ export default {
       this.$emit("changeAppSettings", {
         ...this.appSettings,
         colorMap: this.selectedColor,
+      });
+    },
+    sortPlayersBy() {
+      this.$emit("changeAppSettings", {
+        ...this.appSettings,
+        sortPlayersBy: this.sortPlayersBy,
       });
     },
   },

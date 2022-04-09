@@ -12,7 +12,7 @@
     />
     <div class="players">
       <PlayerScore
-        v-for="player in currentGameSettings.players"
+        v-for="player in sortedPlayers"
         :key="player"
         :name="player"
         :gameScore="getScoreForPlayer(player)"
@@ -91,6 +91,7 @@ import CurrentGameMenu from "@/components/CurrentGameMenu.vue";
 import GameOverDialog from "@/components/GameOverDialog.vue";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import router from "@/router";
+const playerSortOptions = require("@/constants/playerSortOptions.json");
 
 export default {
   name: "CurrentGameView",
@@ -132,6 +133,32 @@ export default {
           )
         )
       );
+    },
+    sortedPlayers() {
+      const players = [...this.currentGameSettings.players];
+
+      if (this.appSettings.sortPlayersBy === playerSortOptions.score) {
+        const playerScores = [
+          ...this.currentGameSettings.players.map((player) => ({
+            score: this.getScoreForPlayer(player),
+            player: player,
+          })),
+        ];
+
+        if (this.currentGameSettings.highestWins) {
+          return playerScores
+            .sort((a, b) => b.score - a.score)
+            .map((o) => o.player);
+        } else {
+          return playerScores
+            .sort((a, b) => a.score - b.score)
+            .map((o) => o.player);
+        }
+      } else if (this.appSettings.sortPlayersBy === playerSortOptions.name) {
+        return players.sort();
+      } else {
+        return players; // default sort by turn
+      }
     },
   },
   watch: {
