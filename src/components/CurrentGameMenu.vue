@@ -21,9 +21,6 @@
             }
           "
         >
-          <!-- <v-icon>{{
-            showRounds ? "mdi-chevron-down" : "mdi-chevron-up"
-          }}</v-icon> -->
           Rounds
         </v-btn>
         <v-btn
@@ -37,9 +34,6 @@
             }
           "
         >
-          <!-- <v-icon>{{
-            showGraph ? "mdi-chevron-down" : "mdi-chevron-up"
-          }}</v-icon> -->
           Graph
         </v-btn>
         <v-spacer></v-spacer>
@@ -74,6 +68,8 @@
           <LineChart
             :players="currentGameSettings.players"
             :rounds="currentGameRounds"
+            :maxPoints="maxPoints"
+            :highestWins="highestWins"
           />
         </div>
       </v-expand-transition>

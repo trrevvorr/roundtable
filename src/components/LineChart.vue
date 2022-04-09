@@ -48,6 +48,19 @@
           },
         },
       },
+      annotations: {
+        yaxis: [
+          {
+            y: maxPoints,
+            label: {
+              style: {
+                color: '#00000099',
+              },
+              text: `play to ${maxPoints} `,
+            },
+          },
+        ],
+      },
     }"
     :series="lineData"
   />
@@ -59,6 +72,8 @@ export default {
   props: {
     rounds: Array,
     players: Array,
+    maxPoints: Number,
+    highestWins: Boolean,
   },
   computed: {
     yAxisLabels() {
