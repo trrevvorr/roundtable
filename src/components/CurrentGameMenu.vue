@@ -11,7 +11,9 @@
       <v-card-subtitle>{{ gameDescription }}</v-card-subtitle>
       <v-card-actions>
         <v-btn
-          text
+          :outlined="showRounds"
+          :text="!showRounds"
+          color="white"
           @click="
             () => {
               showGraph = false;
@@ -19,10 +21,15 @@
             }
           "
         >
-          {{ showRounds ? "Hide" : "Show" }} Rounds
+          <!-- <v-icon>{{
+            showRounds ? "mdi-chevron-down" : "mdi-chevron-up"
+          }}</v-icon> -->
+          Rounds
         </v-btn>
         <v-btn
-          text
+          :outlined="showGraph"
+          :text="!showGraph"
+          color="white"
           @click="
             () => {
               showRounds = false;
@@ -30,7 +37,10 @@
             }
           "
         >
-          {{ showGraph ? "Hide" : "Show" }} Graph
+          <!-- <v-icon>{{
+            showGraph ? "mdi-chevron-down" : "mdi-chevron-up"
+          }}</v-icon> -->
+          Graph
         </v-btn>
         <v-spacer></v-spacer>
         <v-btn color="error" @click="$emit('endGame')"> End Game </v-btn>

@@ -1,63 +1,56 @@
 <template>
-  <div class="container">
-    <apex-chart
-      :options="{
-        chart: {
-          type: 'line',
-          zoom: {
-            enabled: false,
-          },
-          foreColor: '#ffffffb3',
-          toolbar: {
-            show: false,
-          },
-          animations: {
-            animateGradually: {
-              delay: 40,
-            },
-          },
-        },
-        legend: {
-          position: 'top',
-          onItemClick: {
-            toggleDataSeries: false,
-          },
-        },
-        dataLabels: {
+  <apex-chart
+    :options="{
+      chart: {
+        type: 'line',
+        zoom: {
           enabled: false,
         },
-        stroke: {
-          curve: 'smooth',
+        foreColor: '#ffffffb3',
+        toolbar: {
+          show: false,
         },
-        xaxis: {
-          categories: yAxisLabels,
-          title: {
-            text: 'Round',
+        animations: {
+          animateGradually: {
+            delay: 40,
           },
+        },
+      },
+      legend: {
+        position: 'top',
+        onItemClick: {
+          toggleDataSeries: false,
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      xaxis: {
+        categories: yAxisLabels,
+        title: {
+          text: 'Round',
+        },
+      },
+      tooltip: {
+        theme: 'dark',
+      },
+      grid: {
+        row: {
+          colors: ['#fff', 'transparent'],
+          opacity: 0.1,
         },
         yaxis: {
-          title: {
-            text: 'Score',
+          lines: {
+            show: false,
           },
         },
-        tooltip: {
-          theme: 'dark',
-        },
-        grid: {
-          row: {
-            colors: ['#fff', 'transparent'],
-            opacity: 0.1,
-          },
-          yaxis: {
-            lines: {
-              show: false,
-            },
-          },
-        },
-      }"
-      :series="lineData"
-    />
-  </div>
+      },
+    }"
+    :series="lineData"
+  />
 </template>
 
 <script>
@@ -94,7 +87,4 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  margin: 1rem;
-}
 </style>
