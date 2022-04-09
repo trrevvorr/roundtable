@@ -1,6 +1,6 @@
 <template>
   <v-card class="player-score" :color="scoreColor">
-    <v-card-text>
+    <v-card-text class="card-text">
       <div class="text-h4 text-capitalize">
         {{ name }}
       </div>
@@ -32,17 +32,17 @@
       <v-btn
         class="modify-score"
         @click="updateRoundScore((roundScore || 0) - step)"
-        rounded
+        fab
       >
-        <v-icon>mdi-minus</v-icon>
+        <v-icon large>mdi-minus</v-icon>
       </v-btn>
       <v-spacer />
       <v-btn
         class="modify-score"
         @click="updateRoundScore((roundScore || 0) + step)"
-        rounded
+        fab
       >
-        <v-icon>mdi-plus</v-icon>
+        <v-icon large>mdi-plus</v-icon>
       </v-btn>
     </v-card-actions>
   </v-card>

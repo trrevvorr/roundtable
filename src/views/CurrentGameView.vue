@@ -26,19 +26,32 @@
       />
     </div>
     <div>
-      <v-btn
-        v-if="newRoundMode"
-        key="save-round"
-        large
-        bottom
-        right
-        fixed
-        rounded
-        @click="saveRound"
-      >
-        <v-icon left>mdi-floppy</v-icon>
-        Round
-      </v-btn>
+      <div v-if="newRoundMode">
+        <v-btn
+          key="save-round"
+          large
+          bottom
+          right
+          fixed
+          rounded
+          @click="saveRound"
+        >
+          <v-icon left>mdi-floppy</v-icon>
+          Save
+        </v-btn>
+        <v-btn
+          key="cancel-round"
+          large
+          bottom
+          left
+          fixed
+          rounded
+          @click="resetRound"
+        >
+          <v-icon left>mdi-cancel</v-icon>
+          Cancel
+        </v-btn>
+      </div>
       <v-btn
         v-else
         key="new-round"
@@ -181,6 +194,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-gap: 15px;
+  margin-bottom: 3rem;
 }
 /* 
 cards must be at least 245 px wide 
