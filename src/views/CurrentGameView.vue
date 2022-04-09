@@ -188,9 +188,15 @@ export default {
     },
     getScoreForPlayer(player) {
       let total = 0;
-      this.currentGameRounds.forEach((round) => {
-        total += round[player];
-      });
+      const sumToRound =
+        this.editingRoundIndex < 0
+          ? this.currentGameRounds.length
+          : this.editingRoundIndex;
+
+      for (let i = 0; i < sumToRound; i++) {
+        total += this.currentGameRounds[i][player];
+      }
+
       return total;
     },
     setRoundScore(player, newRoundScore) {
