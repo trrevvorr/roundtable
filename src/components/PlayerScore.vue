@@ -21,8 +21,8 @@
           <input
             onClick="this.select();"
             type="number"
-            max="999"
-            min="-999"
+            max="9999"
+            min="-9999"
             class="input"
             :value="roundScore"
             :step="step"
@@ -98,11 +98,11 @@ export default {
   methods: {
     updateRoundScore(newScore) {
       let validatedScore = parseInt(newScore) || 0;
-      if (validatedScore > 999) {
-        validatedScore = 999;
+      if (validatedScore > 9999) {
+        validatedScore = 9999;
       }
-      if (validatedScore < -999) {
-        validatedScore = -999;
+      if (validatedScore < -9999) {
+        validatedScore = -9999;
       }
 
       this.$emit("change", validatedScore);
