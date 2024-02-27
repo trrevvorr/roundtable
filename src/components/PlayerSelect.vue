@@ -35,19 +35,14 @@
               color="secondary"
               rounded
               outlined
-              @click="
-                $emit(
-                  'change',
-                  selectedPlayers.filter((sp) => sp !== player)
-                )
-              "
+              @click="excludePlayer(player)"
             >
               {{ player }}
             </v-btn>
           </v-badge>
           <v-btn
             v-else
-            @click="$emit('change', [...selectedPlayers, player])"
+            @click="includePlayer(player)"
             class="player-button"
             rounded
             outlined
@@ -138,7 +133,14 @@ export default {
       this.setNewGamePlayers([
         ...this.newGamePlayers.filter((p) => p !== player),
       ]);
+      this.excludePlayer(player);
     },
+    includePlayer(player) {
+      this.$emit('change', [...this.selectedPlayers, player]);
+    },
+    excludePlayer(player) {
+      this.$emit('change', this.selectedPlayers.filter((sp) => sp !== player));
+    }
   },
 };
 </script>
