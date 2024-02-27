@@ -186,7 +186,7 @@ export default {
 }
 
 .round-points .input {
-  max-width: 100px;
+  max-width: 140px;
   color: inherit;
 }
 </style>
